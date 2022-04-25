@@ -1,0 +1,30 @@
+{
+  "name": "eolibrary",
+  "version": "1.0.0",
+  "description": "The library will contribute to the OpenEO processes chain by creating Javascripts modules to process EO data ",
+  "main": "index.js",
+  "files": [
+    "src",
+    "lite",
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaherrerama/OpenEO-Processes-Javscript.git"
+  },
+  "keywords": [
+    "EO",
+    "OpenEo",
+    "raster",
+    "geotiff"
+  ],
+  "author": "Jorge Herrera",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joaherrerama/OpenEO-Processes-Javscript/issues"
+  },
+  "homepage": "https://github.com/joaherrerama/OpenEO-Processes-Javscript#readme"
+}
