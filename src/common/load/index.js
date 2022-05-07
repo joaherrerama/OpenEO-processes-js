@@ -1,5 +1,5 @@
 /**
- * This function creates an ArrayBuffer from a stac search. , 
+ * This function creates an ArrayBuffer from a stac search. ,
  * NOTE: Use parse instead of load in most cases.
  * @name load_stac
  * @param {URL|GeoTIFF} Image
@@ -9,4 +9,4 @@
  * const raster = await openeojs.load(url)
  */
 
-export { default } from './load.module';
+export { default } from './load.module'
