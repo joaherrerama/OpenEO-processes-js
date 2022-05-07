@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 
 async function createArrayFromImage(image){
     const response = await fetch(url_image);
@@ -11,7 +11,7 @@ async function UrlValidator(url) {
     try {
       const image = await fetch(url);
       if (!res.ok) {
-        throw new Error("BAD REQUEST - Verify the URL or File");
+        throw new Error('BAD REQUEST - Verify the URL or File');
       }
       return image;
     } catch (error) {
