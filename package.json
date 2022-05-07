@@ -1,30 +1,34 @@
 {
   "name": "eolibrary",
   "version": "1.0.0",
-  "description": "The library will contribute to the OpenEO processes chain by creating Javascripts modules to process EO data ",
-  "main": "index.js",
-  "files": [
-    "src",
-    "lite",
-    "dist"
-  ],
+  "description": "This repository contains the based code of implementation for processes specifications. Each process is coded and specified in modules with its test and documentation code.",
+  "main": "shitty_file.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "type": "module",
+  "dependencies": {
+    "fast-max": "^0.3.0",
+    "fast-min": "^0.2.0",
+    "geotiff": "^2.0.5",
+    "jest": "^28.1.0",
+    "node-fetch": "^3.2.4",
+    "node.fetch": "^1.0.0",
+    "numjs": "^0.16.1"
+  },
+  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joaherrerama/OpenEO-Processes-Javscript.git"
+    "url": "git+https://github.com/joaherrerama/OpenEO-processes-js.git"
   },
-  "keywords": [
-    "EO",
-    "OpenEo",
-    "raster",
-    "geotiff"
-  ],
-  "author": "Jorge Herrera",
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/joaherrerama/OpenEO-Processes-Javscript/issues"
+    "url": "https://github.com/joaherrerama/OpenEO-processes-js/issues"
   },
-  "homepage": "https://github.com/joaherrerama/OpenEO-Processes-Javscript#readme"
+  "homepage": "https://github.com/joaherrerama/OpenEO-processes-js#readme"
 }
