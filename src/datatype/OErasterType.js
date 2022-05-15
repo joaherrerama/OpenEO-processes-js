@@ -1,8 +1,7 @@
 export class OERasterBand{
-    constructor(BufferArray, label, exif) {
+    constructor(BufferArray, label) {
       this.BufferArray = BufferArray;
-      this.label = label,
-      this.exif = exif
+      this.label = label
     }
     valitadorOEBand(){
       return true
@@ -10,18 +9,10 @@ export class OERasterBand{
 }
 
 export default class OERaster{
-  constructor(bands, source) {
-    this.bands = (bandsArray) =>{
-      try {
-        validation = bandsArray[0].valitadorOEBand()
-        if(validation){
-          return bands
-        }
-      } catch (error) {
-        throw Error('The object is not an array or EORasterBand')
-      }
-    };
+  constructor(bands, source, exif) {
+    this.bands = bands
     this.source = source
+    this.exif = exif
   }
   valitadorOERaster(){
     return true
