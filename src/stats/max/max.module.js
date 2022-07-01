@@ -1,3 +1,5 @@
+import OERaster, { OERasterBand } from "../../datatype/OErasterType.js"
+
 function getMaxOfArray(numArray,
     { debug = false, no_data = undefined} = {
       debug: false,
@@ -12,8 +14,8 @@ function getMaxOfArray(numArray,
   
   function max (typeArray) {
     const max = () => {
-      const max = getMaxOfArray(typeArray)
-      return max
+      let maxRaster = getMaxOfArray(typeArray)
+      return maxRaster
     }
   
     return max()

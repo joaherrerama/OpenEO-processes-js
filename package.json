@@ -9,18 +9,30 @@
   },
   "type": "module",
   "dependencies": {
+    "exifreader": "^4.5.0",
     "fast-max": "^0.3.0",
     "fast-min": "^0.2.0",
     "geotiff": "^2.0.5",
     "node-fetch": "^3.2.4",
-    "node.fetch": "^1.0.0",
-    "numjs": "^0.16.1"
+    "node.fetch": "^1.0.0"
   },
   "devDependencies": {
-    "jest": "^28.1.0"
+    "http-server": "^14.1.0",
+    "jasmine-core": "^4.1.1",
+    "jest": "^28.1.0",
+    "karma": "^6.3.19",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage": "^2.2.0",
+    "karma-jasmine": "^5.0.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "pre-commit": "^1.2.2"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "http-server"
+  },
+  "env": {
+    "browser": true
   },
   "repository": {
     "type": "git",

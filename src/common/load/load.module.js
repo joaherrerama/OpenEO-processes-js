@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
-import { promises as fs } from 'fs'; 
-import ExifReader from 'exifreader';
+import OERaster, { OERastercube } from '../../datatype/OErasterType.js';
+import GeoTIFF, { fromUrl, fromArrayBuffer, fromFile } from 'geotiff';
 
 function UrlValidator (string) {
   let url;
@@ -12,50 +12,33 @@ function UrlValidator (string) {
   return true;
 }
 
-function get_exif(buffer){
-  const tags = ExifReader.load(buffer, {
-    expanded: true,
-    includeUnknown: true
-  });
-  return tags.exif
+function OERasterBuilder(geotiff, url_sample){
+  const raster = new OERaster(geotiff,url_sample)
+  return raster
 }
 
-function OERasterBuilder(arrayBuffer){
-  const meta = get_exif(arrayBuffer)
-  const bits = meta.BitsPerSample.value
-  const arr = TypedArray(arrayBuffer, bits)
-  const nBands = meta.SamplesPerPixel.value
-  var bands = new Array(nBands)
-  for(var b=0; b <nBands; b++){
-    let img_arr = []
-    let iter = b
-    for(var i=0; i < meta.ImageLength.value; i++){
-      for(var j=0; j < meta.ImageWidth.value; j++){
-        img_arr.push(arr[j + iter])
-        iter = meta.SamplesPerPixel.value
+async function createObjectFromImage (url_images) {
+  if(typeof url_images == 'string'){
+    url_images = [url_images]
+  }
+  const raster_cube = new OERastercube([], [])
+  for(let url_image of url_images){
+    try{
+      if(UrlValidator(url_image)){
+        const response = await fetch(url_image)
+        const arrayBuffer = await response.arrayBuffer()
+        var geotiff = await fromArrayBuffer(arrayBuffer)
+      }else{
+        var geotiff = await fromFile(url_image)
       }
+      const rasterType = OERasterBuilder(geotiff, url_image)
+      raster_cube.rasters.push(rasterType)
+      raster_cube.tdimension.push(new Date())
+    }catch(e){
+      throw Error(e)
     }
-    let typeArray = TypedArray(img_arr, bits)
-    bands[b] = new OERasterBand(typeArray,b)
   }
-  return new OERaster(bands,url_sample,meta)
-}
-
-async function createObjectFromImage (url_image) {
-  try{
-    if(UrlValidator(url_image)){
-      const response = await fetch(url_image);
-      const arrayBuffer = await response.arrayBuffer();
-      const rasterType = OERasterBuilder(arrayBuffer)
-      return rasterType
-    }else{
-      const arrayBuffer = await fs.readFile(url_image);
-      const rasterType = OERasterBuilder(arrayBuffer)
-      return rasterType
-    }
-  }catch(e){
-    throw Error(e)
-  }
+  return raster_cube
 }
 
 async function load (urlOrFile) {

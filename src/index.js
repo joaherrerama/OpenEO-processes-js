@@ -1,7 +1,9 @@
 import load from './common/load'
+import ndvi from './vegetation_indices/ndvi'
 
 const openeojs = {
-  load
+  load,
+  ndvi
 }
 
 export default openeojs
