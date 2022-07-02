@@ -19,6 +19,6 @@ const testSample = [
 ];
 const typedSample = Float32Array.from(testSample);
 
-test("Max value in an typearray (Image Format)", () => {
+test("Min value in an typearray (Image Format)", () => {
   expect(min(typedSample)).toEqual(0.6604700088500977);
 });

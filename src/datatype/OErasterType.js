@@ -3,6 +3,7 @@ export class OERasterBand {
     this.BufferArray = BufferArray;
     this.label = label;
   }
+
   valitadorOEBand() {
     return true;
   }
@@ -14,6 +15,7 @@ export default class OERaster {
     this.source = source;
     this.extraProperties = extraProperties;
   }
+
   valitadorOERaster() {
     return true;
   }

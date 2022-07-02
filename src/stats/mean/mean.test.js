@@ -19,6 +19,6 @@ const testSample = [
 ];
 const typedSample = Float32Array.from(testSample);
 
-test("Max value in an typearray (Image Format)", () => {
+test("Mean value in an typearray (Image Format)", () => {
   expect(mean(typedSample)).toBe(132.56478788375856);
 });

@@ -5,7 +5,7 @@ function getMeanOfArray(
     no_data: undefined,
   }
 ) {
-  let length = numbers.length;
+  const length = numbers.length;
   let sum = 0;
   for (let i = 1; i < length; i++) {
     const value = numbers[i];

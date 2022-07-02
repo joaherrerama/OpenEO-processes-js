@@ -9,6 +9,6 @@ const nir = 3;
 
 test("Loaded image from URL", async () => {
   const image = await load(file);
-  let ndvi_out = await ndvi(image, red, nir);
+  const ndvi_out = await ndvi(image, red, nir);
   expect(ndvi_out instanceof OERastercube).toBe(true);
 });

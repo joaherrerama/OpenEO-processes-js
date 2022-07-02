@@ -5,11 +5,11 @@ function getModeOfArray(
     no_data: undefined,
   }
 ) {
-  let modes = [],
-    count = [],
-    i,
-    number,
-    maxIndex = 0;
+  const modes = [];
+  const count = [];
+  let i;
+  let number;
+  let maxIndex = 0;
 
   numbers.map((number) => {
     count[number] = (count[number] || 0) + 1;
@@ -18,12 +18,13 @@ function getModeOfArray(
     }
   });
 
-  for (i in count)
+  for (i in count) {
     if (count.hasOwnProperty(i)) {
       if (count[i] === maxIndex) {
         modes.push(Number(i));
       }
     }
+  }
 
   if (modes.length == 1) {
     return modes[0];

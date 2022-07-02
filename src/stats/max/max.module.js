@@ -14,7 +14,7 @@ function getMaxOfArray(
 
 function max(typeArray) {
   const max = () => {
-    let maxRaster = getMaxOfArray(typeArray);
+    const maxRaster = getMaxOfArray(typeArray);
     return maxRaster;
   };
 

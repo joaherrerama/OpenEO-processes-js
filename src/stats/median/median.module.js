@@ -5,8 +5,8 @@ function getMedianOfArray(
     no_data: undefined,
   }
 ) {
-  var median = 0,
-    numsLen = numbers.length;
+  let median = 0;
+  const numsLen = numbers.length;
   numbers.sort();
 
   if (numsLen % 2 === 0) {

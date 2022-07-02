@@ -1,28 +1,27 @@
 import fetch from "node-fetch";
 import OERaster, { OERastercube } from "../../datatype/OErasterType.js";
-import GeoTIFF, { fromUrl, fromArrayBuffer, fromFile } from "geotiff";
+import { fromArrayBuffer, fromFile } from "geotiff";
 
 function UrlValidator(string) {
-  let url;
   try {
-    url = new URL(string);
+    new URL(string);
   } catch (_) {
     return false;
   }
   return true;
 }
 
-function OERasterBuilder(geotiff, url_sample) {
-  const raster = new OERaster(geotiff, url_sample);
+function OERasterBuilder(geotiff, urlSample) {
+  const raster = new OERaster(geotiff, urlSample);
   return raster;
 }
 
-async function createObjectFromImage(url_images) {
-  if (typeof url_images == "string") {
-    url_images = [url_images];
+async function createObjectFromImage(urlImages) {
+  if (typeof urlImages === "string") {
+    urlImages = [urlImages];
   }
   const raster_cube = new OERastercube([], []);
-  for (let url_image of url_images) {
+  for (const url_image of urlImages) {
     try {
       if (UrlValidator(url_image)) {
         const response = await fetch(url_image);
