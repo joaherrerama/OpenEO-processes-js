@@ -10,7 +10,6 @@ on:
     branches: [main]
 
 jobs:
-  
   # Cancel duplicate jobs: https://github.com/fkirc/skip-duplicate-actions#option-3-cancellation-only
   cancel_duplicates:
     name: Cancel duplicate jobs
@@ -38,7 +37,6 @@ jobs:
 
         uses: nvuillam/mega-linter@v4
         env:
-
           # All available variables are described in documentation
           # https://nvuillam.github.io/mega-linter/configuration/
 

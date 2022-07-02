@@ -1,15 +1,14 @@
-import { test, expect } from 'jest'
-import load from './ndvi.module'
+import ndvi from "./ndvi.module";
+import load from "./../../common/load/load.module.js";
+import { OERastercube } from "../../datatype/OErasterType";
 
-const path = 'https://download.dlr.loose.eox.at/Sentinel-2/L2A_COG/tiles/36/L/TM/2020/12/S2B_MSIL2A_20201230T080239_N0214_R035_T36LTM_20201230T103855.COG/S2B_MSIL2A_20201230T080239_N0214_R035_T36LTM_20201230T103855_B04_10m_cog.tif'
+/** Test */
+const file = "./sample_data/sentinel_muenster.tif";
+const red = 0;
+const nir = 3;
 
-const failpath = 'https://download.dlr.loose.eox.at/Sentinel-2/L2A_COG/tiles/36/L/TM/2020/12/S2B_MSIL2A_20201230T080239_N0214_R035_T36LTM_20201230T103855.COG/S2B_MSIL2A_20201230T080239_N0214_R035_T36LTM_20201230T103855_B08A_10m_cog.tif'
-
-test('Loaded image from URL', async () => {
-  const raster = await load(path)
-  await expect(typeof raster).toBe('object')
-})
-
-test('Loaded image from false URL', async () => {
-  await expect(load(failpath)).toThrow()
-})
+test("Loaded image from URL", async () => {
+  const image = await load(file);
+  let ndvi_out = await ndvi(image, red, nir);
+  expect(ndvi_out instanceof OERastercube).toBe(true);
+});
