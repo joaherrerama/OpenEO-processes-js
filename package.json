@@ -19,7 +19,7 @@
     "babel-jest": "^28.1.2",
     "core-js": "^3.23.3",
     "eslint": "^8.19.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.0",
     "jest": "^28.1.2",
     "karma": "^6.3.19",
     "karma-chrome-launcher": "^3.1.1",
@@ -35,7 +35,8 @@
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "http-server",
-    "compile": "rm -rf dist/lib && tsc --build tsconfig.es5.json"
+    "compile": "rm -rf dist/lib && tsc --build tsconfig.es5.json",
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {

@@ -11,12 +11,12 @@ function getModeOfArray(
     number,
     maxIndex = 0;
 
-  numbers.map( number =>{
+  numbers.map((number) => {
     count[number] = (count[number] || 0) + 1;
     if (count[number] > maxIndex) {
       maxIndex = count[number];
     }
-  })
+  });
 
   for (i in count)
     if (count.hasOwnProperty(i)) {
@@ -24,10 +24,10 @@ function getModeOfArray(
         modes.push(Number(i));
       }
     }
-  
-    if(modes.length == 1){
-      return modes[0]
-    }
+
+  if (modes.length == 1) {
+    return modes[0];
+  }
   return modes;
 }
 

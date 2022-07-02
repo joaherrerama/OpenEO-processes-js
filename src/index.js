@@ -14,7 +14,7 @@ const openeojs = {
   min,
   mean,
   median,
-  mode
+  mode,
 };
 
 export default openeojs;
