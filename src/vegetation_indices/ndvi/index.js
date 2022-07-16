@@ -15,4 +15,4 @@
  * const ndvi = await openeojs.ndvi(raster, 0, 1)
  */
 
-export { default } from "./ndvi.module";
+export { default } from './ndvi.module.js';

@@ -14,4 +14,4 @@
  * console.log(mode)
  */
 
-export { default } from "./mode.module";
+export { default } from './mode.module';

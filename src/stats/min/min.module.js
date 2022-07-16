@@ -2,7 +2,7 @@ function getMinOfArray(
   numArray,
   { debug = false, no_data = undefined } = {
     debug: false,
-    no_data: undefined,
+    no_data: undefined
   }
 ) {
   let min = 1000;

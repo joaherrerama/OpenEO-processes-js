@@ -1,6 +1,5 @@
-import fetch from "node-fetch";
-import OERaster, { OERastercube } from "../../datatype/OErasterType.js";
-import { fromArrayBuffer, fromFile } from "geotiff";
+import { fromArrayBuffer, fromFile } from 'geotiff';
+import OERaster, { OERastercube } from '../../datatype/OErasterType.js';
 
 function UrlValidator(string) {
   try {
@@ -17,7 +16,7 @@ function OERasterBuilder(geotiff, urlSample) {
 }
 
 async function createObjectFromImage(urlImages) {
-  if (typeof urlImages === "string") {
+  if (typeof urlImages === 'string') {
     urlImages = [urlImages];
   }
   const raster_cube = new OERastercube([], []);
@@ -34,8 +33,8 @@ async function createObjectFromImage(urlImages) {
       raster_cube.rasters.push(rasterType);
       raster_cube.tdimension.push(new Date());
     } catch (e) {
-      throw new Error("Image not valid");
       console.error(e);
+      // throw new Error('Image not valid');
     }
   }
   return raster_cube;

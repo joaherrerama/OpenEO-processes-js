@@ -1,21 +1,17 @@
-import OERaster, { OERastercube } from "../../datatype/OErasterType.js";
-import { fromArrayBuffer, writeArrayBuffer } from "geotiff";
-import max from "../../stats/max/max.module.js";
-import min from "../../stats/min/min.module.js";
+import { fromArrayBuffer, writeArrayBuffer } from 'geotiff';
+import OERaster from '../../datatype/OErasterType.js';
+import max from '../../stats/max/max.module.js';
+import min from '../../stats/min/min.module.js';
 
-function U8bitsArray(array, max_array, min_array) {
-  return array.map(function (x) {
-    return ((x - min_array) / (max_array - min_array)) * 255;
-  });
+function U8bitsArray(array, maxArray, minArray) {
+  return array.map((x) => ((x - minArray) / (maxArray - minArray)) * 255);
 }
 
 function tdimentionsHandler(rastercube) {
   if (rastercube.tdimension.length === 0) {
     const n = rastercube.rasters.length;
 
-    rastercube.tdimension = Array.apply(null, Array(n)).map(function (x, i) {
-      return new Date();
-    });
+    rastercube.tdimension = Array.apply(null, Array(n)).map(() => new Date());
   }
   return rastercube;
 }
@@ -26,51 +22,53 @@ function undefunedValidator(image, band) {
   }
 }
 
+/* eslint-disable no-await-in-loop */
 async function ndviCalculation(image, red, nir) {
   const ImagesArray = await image.readRasters();
-  const red_band = ImagesArray[red];
-  undefunedValidator(red_band, "red");
+  const redBand = ImagesArray[red];
+  undefunedValidator(redBand, 'red');
 
-  const nir_band = ImagesArray[nir];
-  undefunedValidator(red_band, "ndvi");
+  const nirBand = ImagesArray[nir];
+  undefunedValidator(redBand, 'ndvi');
 
-  if (red_band.length !== red_band.length) {
-    throw new Error("Image Dimensions do not fit");
+  if (redBand.length !== nirBand.length) {
+    throw new Error('Image Dimensions do not fit');
   }
 
-  const ndvi_value = [];
+  const ndviValue = [];
 
-  for (let i = 0; i < red_band.length; i++) {
-    ndvi_value[i] = (red_band[i] - nir_band[i]) / (red_band[i] + nir_band[i]);
+  for (let i = 0; i < redBand.length; i += 1) {
+    ndviValue[i] = (redBand[i] - nirBand[i]) / (redBand[i] + nirBand[i]);
   }
-  return ndvi_value;
+  return ndviValue;
 }
 
+/* eslint-disable no-await-in-loop */
 async function ndvi(rastercube, red, nir) {
   rastercube = tdimentionsHandler(rastercube);
 
   for (const t in rastercube.tdimension) {
     const geotiff = await rastercube.rasters[t].geotiff;
     const n = await geotiff.getImageCount();
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n; i += 1) {
       const image = await geotiff.getImage(i);
-      const ndvi_value = await ndviCalculation(image, red, nir);
+      const ndviValue = await ndviCalculation(image, red, nir);
 
       // create a 16 bit geotiff wit
-      const ndviArrayBuffer = new Float32Array(ndvi_value);
-
-      const max_array = max(ndvi_value);
-      const min_array = min(ndvi_value);
+      const ndviArrayBuffer = new Float32Array(ndviValue);
+      const maxArray = max(ndviArrayBuffer);
+      const minArray = min(ndviArrayBuffer);
       const metadata = {
         width: image.getWidth(),
-        height: image.getHeight(),
+        height: image.getHeight()
       };
-      const newNdvi255 = U8bitsArray(ndvi_value);
-      const ndvi_array = await writeArrayBuffer(newNdvi255, metadata);
-      const ndviGeotiff = await fromArrayBuffer(ndvi_array);
-      const EOraster = new OERaster(ndviGeotiff, "ndvi_process", {
-        max_norm: max_array,
-        min_norm: min_array,
+      const newNdvi255 = U8bitsArray(ndviArrayBuffer);
+      const ndviArray = await writeArrayBuffer(newNdvi255, metadata);
+      const ndviGeotiff = await fromArrayBuffer(ndviArray);
+      const EOraster = new OERaster(ndviGeotiff, 'ndvi_process', {
+        max_norm: maxArray,
+        min_norm: minArray,
+        sourceArray: ndviArrayBuffer
       });
 
       rastercube.rasters.push(EOraster);

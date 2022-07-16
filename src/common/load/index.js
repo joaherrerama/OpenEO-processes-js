@@ -9,4 +9,4 @@
  * const raster = await openeojs.load(url)
  */
 
-export { default } from "./load.module";
+export { default } from './load.module';

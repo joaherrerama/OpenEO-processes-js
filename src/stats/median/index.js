@@ -14,4 +14,4 @@
  * console.log(mean)
  */
 
-export { default } from "./median.module";
+export { default } from './median.module';

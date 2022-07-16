@@ -14,4 +14,4 @@
  * console.log(mean)
  */
 
-export { default } from "./mean.module";
+export { default } from './mean.module';

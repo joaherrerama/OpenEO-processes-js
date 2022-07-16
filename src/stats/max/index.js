@@ -14,4 +14,4 @@
  * console.log(max)
  */
 
-export { default } from "./max.module";
+export { default } from './max.module';

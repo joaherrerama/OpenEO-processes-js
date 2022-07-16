@@ -2,10 +2,10 @@ function getMeanOfArray(
   numbers,
   { debug = false, no_data = undefined } = {
     debug: false,
-    no_data: undefined,
+    no_data: undefined
   }
 ) {
-  const length = numbers.length;
+  const { length } = numbers;
   let sum = 0;
   for (let i = 1; i < length; i++) {
     const value = numbers[i];

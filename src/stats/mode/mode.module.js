@@ -2,7 +2,7 @@ function getModeOfArray(
   numbers,
   { debug = false, no_data = undefined } = {
     debug: false,
-    no_data: undefined,
+    no_data: undefined
   }
 ) {
   const modes = [];

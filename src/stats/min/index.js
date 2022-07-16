@@ -14,4 +14,4 @@
  * console.log(min)
  */
 
-export { default } from "./min.module";
+export { default } from './min.module';

@@ -2,7 +2,7 @@ function getMaxOfArray(
   numArray,
   { debug = false, no_data = undefined } = {
     debug: false,
-    no_data: undefined,
+    no_data: undefined
   }
 ) {
   let max = 0;
