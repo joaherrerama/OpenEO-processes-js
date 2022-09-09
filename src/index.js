@@ -21,9 +21,7 @@ export { load, ndvi, max, min, mean, median, mode };
 /* require openeojs in AMD environment */
 if (typeof define === 'function' && define.amd) {
   // eslint-disable-line no-undef
-  define(() => {
-    return openeojs;
-  }); // eslint-disable-line no-undef
+  define(() => openeojs); // eslint-disable-line no-undef
 }
 
 /* set window.openeojs in the browser */

@@ -1,0 +1,11 @@
+{
+  "process_graph": {
+    "load_collection": {
+      "process_id": "load_collection",
+      "arguments": {
+        "url": ["./sample_data/sentinel_muenster.tif"]
+      },
+      "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
+    }
+  }
+}
