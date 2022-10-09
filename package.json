@@ -12,41 +12,32 @@
     "@openeo/js-processgraphs": "^1.3.0",
     "@seald-io/nedb": "^3.0.0",
     "ajv": "^8.11.0",
+    "babel-runtime": "^6.26.0",
     "cross-fetch": "^3.1.5",
     "eslint-pre-commit-hook": "^2.0.7",
+    "fast-max": "^0.4.0",
+    "fast-min": "^0.3.0",
+    "fs-extra": "^10.1.0",
     "fse": "^4.0.1",
-    "geotiff": "^2.0.5",
-    "proj4": "^2.8.0"
+    "geotiff": "^2.0.4",
+    "proj4": "^2.8.0",
+    "require-esm-as-empty-object": "0.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.6",
-    "@babel/core": "^7.18.6",
-    "@babel/node": "^7.18.6",
-    "@babel/preset-env": "^7.18.6",
-    "@types/jest": "^28.1.4",
-    "babel-jest": "^28.1.2",
     "core-js": "^3.23.3",
     "eslint": "^8.19.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "husky": "^8.0.0",
-    "jest": "^28.1.2",
-    "karma": "^6.3.19",
-    "karma-chrome-launcher": "^3.1.1",
-    "karma-coverage": "^2.2.0",
-    "karma-jasmine": "^5.0.0",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "node-fetch": "^3.2.10",
+    "node-fetch": "^2.6.7",
     "npm": "^8.13.2",
     "pre-commit": "^1.2.2",
     "prettier": "2.7.1",
-    "pretty-quick": "^3.1.3",
-    "regenerator-runtime": "^0.13.9"
+    "pretty-quick": "^3.1.3"
   },
-  "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "start": "http-server",
+    "start": "npm run build && node dist/index.js",
     "compile": "rm -rf dist/lib && tsc --build tsconfig.es5.json",
     "prepare": "husky install",
     "prepare_npm": "npm run build",
@@ -85,6 +76,11 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/joaherrerama/OpenEO-processes-js/issues"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src/"
+    ]
   },
   "homepage": "https://github.com/joaherrerama/OpenEO-processes-js#readme"
 }

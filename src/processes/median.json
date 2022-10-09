@@ -1,0 +1,23 @@
+{
+  "id": "median",
+  "summary": "Estimates the median value from a TypedArray",
+  "description": "the function reccieves a TypedArray object and return the median value",
+  "categories": ["median"],
+  "parameters": [
+    {
+      "name": "typedArray",
+      "description": "TypedArray Object",
+      "schema": [
+        {
+          "type": "typedArray"
+        }
+      ]
+    }
+  ],
+  "returns": {
+    "description": "return a number",
+    "schema": {
+      "type": "number"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "process_graph": {
+    "load_collection": {
+      "process_id": "load_collection",
+      "arguments": {
+        "source": [
+          "/Users/Jorge/Documents/tmp/EOlibrary/assets/sample_data/sentinel_muenster.tif"
+        ]
+      },
+      "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
+    },
+    "ndvi": {
+      "process_id": "ndvi",
+      "arguments": {
+        "rastercube": {
+          "from_node": "load_collection"
+        },
+        "red": 0,
+        "nir": 3
+      },
+      "result": true
+    }
+  }
+}

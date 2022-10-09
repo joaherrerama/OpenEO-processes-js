@@ -1,0 +1,24 @@
+{
+  "id": "max",
+  "summary": "Estimates the max value from a TypedArray",
+  "description": "the function reccieves a TypedArray object and return the maximum",
+  "categories": ["max"],
+  "parameters": [
+    {
+      "name": "typedArray",
+      "description": "TypedArray Object",
+      "schema": [
+        {
+          "type": "typedArray",
+          "subtype": "OERastercube"
+        }
+      ]
+    }
+  ],
+  "returns": {
+    "description": "return a number",
+    "schema": {
+      "type": "number"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "ndvi",
+  "summary": "Calculates the NDVI from a RasterCube Object",
+  "description": "the function reccieves 3 inputs: a raster cube, the red and nir bands",
+  "categories": ["ndvi", "RasterCube"],
+  "parameters": [
+    {
+      "name": "rastercube",
+      "description": "RasterCube Object",
+      "schema": [
+        {
+          "type": "object",
+          "subtype": "OERastercube"
+        }
+      ]
+    },
+    {
+      "name": "red",
+      "description": "RED Bands",
+      "schema": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "nir",
+      "description": "NIR Bands",
+      "schema": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        }
+      ]
+    }
+  ],
+  "returns": {
+    "description": "return a raster datacube object",
+    "schema": {
+      "type": "object",
+      "subtype": "OERastercube"
+    }
+  }
+}
