@@ -1,5 +1,5 @@
 import { OERastercube } from '../../datatype/OErasterType';
-import load from './reduce.module';
+import load from '../src/processes/reduce.module';
 
 const path = './sample_data/sentinel_muenster.tif';
 
