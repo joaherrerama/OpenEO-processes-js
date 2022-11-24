@@ -1,0 +1,81 @@
+{
+  "process_graph": {
+    "load_collection": {
+      "process_id": "load_collection",
+      "arguments": {
+        "source": [
+          "/Users/Jorge/Documents/tmp/EOlibrary/assets/sample_data/sentinel_muenster.tif"
+        ]
+      },
+      "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
+    },
+    "reduce_bands": {
+      "process_id": "reduce_dimension",
+      "arguments": {
+        "data": {
+          "from_node": "load_collection"
+        },
+        "reducer": {
+          "process_graph": {
+            "median": {
+              "process_id": "median",
+              "arguments": {
+                "typedArray": {
+                  "from_parameter": "typedArray"
+                }
+              },
+              "result": true
+            }
+          }
+        },
+        "dimension": "temporal"
+      },
+      "description": "reducer median"
+    },
+    "apply":{
+      "process_id":"apply",
+      "arguments": {
+        "data": {
+          "from_node": "load_collection"
+        },
+        "process": {
+          "process_graph":{
+            "max":{
+              "process_id": "max",
+              "arguments":{
+                "typedArray": {
+                  "from_parameter": "typedArray"   
+                }
+              }
+            },
+            "min":{
+              "process_id": "min",
+              "arguments":{
+                "typedArray": {
+                  "from_parameter": "typedArray"   
+                }
+              }
+            },
+            "linear_scale_range":{
+              "process_id": "linear_scale_range",
+              "arguments": {
+                "x": {
+                  "from_parameter": "x"
+                },
+                "inputMin": {
+                  "from_node": "max"
+                },
+                "inputMax": {
+                  "from_node": "min"
+                }
+              },
+              "result": true
+            }
+          }
+        }
+      },
+      "description": "normalizing bands",
+      "result": true
+    }
+  }
+}

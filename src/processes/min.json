@@ -1,0 +1,24 @@
+{
+  "id": "min",
+  "summary": "Estimates the min value from a TypedArray",
+  "description": "the function reccieves a TypedArray object and return the minimum",
+  "categories": ["min"],
+  "parameters": [
+    {
+      "name": "typedArray",
+      "description": "TypedArray Object",
+      "schema": [
+        {
+          "type": "typedArray",
+          "subtype": "OERastercube"
+        }
+      ]
+    }
+  ],
+  "returns": {
+    "description": "return a number",
+    "schema": {
+      "type": "number"
+    }
+  }
+}

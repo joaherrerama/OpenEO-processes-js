@@ -1,0 +1,23 @@
+{
+  "id": "mean",
+  "summary": "Estimates the mean value from a TypedArray",
+  "description": "the function reccieves a TypedArray object and return the mean value",
+  "categories": ["mean"],
+  "parameters": [
+    {
+      "name": "typedArray",
+      "description": "TypedArray Object",
+      "schema": [
+        {
+          "type": "array"
+        }
+      ]
+    }
+  ],
+  "returns": {
+    "description": "return a number",
+    "schema": {
+      "type": "number"
+    }
+  }
+}

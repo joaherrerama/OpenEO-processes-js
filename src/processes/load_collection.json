@@ -1,0 +1,28 @@
+{
+  "id": "load_collection",
+  "summary": "Load an image from Local or Remote sources",
+  "description": "Transform imagenary sources into RasterCubes ready to be processed",
+  "categories": ["load_collection", "datacube"],
+  "parameters": [
+    {
+      "name": "source",
+      "description": "Path or URL to the source",
+      "schema": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "string",
+          "pattern": "^[\\w\\-\\.~/]+$"
+        }
+      ]
+    }
+  ],
+  "returns": {
+    "description": "return a raster datacube object",
+    "schema": {
+      "type": "object",
+      "subtype": "OERastercube"
+    }
+  }
+}
