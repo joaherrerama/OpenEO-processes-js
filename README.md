@@ -36,4 +36,6 @@ The latest version has 11 processes implemented as follow:
 
 Currently exist 7 unit testing and 4 user cases . These can be find in the test folder and can be compiled through:
 
-`npm test`
+```
+npm test
+```
