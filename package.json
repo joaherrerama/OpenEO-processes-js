@@ -1,7 +1,14 @@
 {
-  "name": "openeojs",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "name": "@joaherrerama/openeojs",
   "description": "This repository contains the based code of implementation for processes specifications. Each process is coded and specified in modules with its test and documentation code.",
+  "author": {
+    "name": "Jorge Herrera",
+    "email": "jorge@uni-muenster.de"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/yourOrganizationOrAccount"
+  },
   "main": "lib/index.js",
   "directories": {
     "doc": "docs",
@@ -74,7 +81,6 @@
     "type": "git",
     "url": "git+https://github.com/joaherrerama/OpenEO-processes-js.git"
   },
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/joaherrerama/OpenEO-processes-js/issues"
