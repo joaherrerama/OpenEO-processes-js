@@ -1,9 +1,9 @@
 const { fromArrayBuffer, fromFile } = require('geotiff');
 const fetch = require('cross-fetch');
-const OERaster = require('../datatype/OERaster.js');
-const OERastercube = require('../datatype/OERasterCube.js');
-const OERasterBand = require('../datatype/OERasterBand.js');
-const OEProcess = require('../processgraph/process.js');
+const OERaster = require('../datatype/OERaster');
+const OERastercube = require('../datatype/OERasterCube');
+const OERasterBand = require('../datatype/OERasterBand');
+const OEProcess = require('../processgraph/process');
 
 module.exports = class load_collection extends OEProcess {
   #UrlValidator(string) {
@@ -22,7 +22,7 @@ module.exports = class load_collection extends OEProcess {
       fileDirectory: image.getFileDirectory(),
       gdalMetadata: image.getGDALMetadata(),
       gdalNoData: image.getGDALNoData(),
-      GeoKeys: image.getGeoKeys()
+      GeoKeys: image.getGeoKeys(),
     };
     const raster = new OERaster([], urlSample, metadata);
     let n = 0;
@@ -49,11 +49,9 @@ module.exports = class load_collection extends OEProcess {
           var geotiff = await fromFile(url_image, { ovr: true });
         }
 
-        let rasterArr = [];
 
         const rasterType = await this.#OERasterBuilder(geotiff, url_image);
-        rasterArr.push(rasterType);
-        raster_cube.rasters.push(rasterArr);
+        raster_cube.rasters.push(rasterType);
         raster_cube.tdimension.push(new Date());
       } catch (e) {
         console.error(e);
@@ -69,7 +67,6 @@ module.exports = class load_collection extends OEProcess {
   async execute(node) {
     const urlOrFile = node.getArgument('source');
     const result = await this.#createObjectFromImage(urlOrFile);
-    console.log(result);
     return result;
   }
 };

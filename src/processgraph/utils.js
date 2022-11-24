@@ -4,15 +4,16 @@ const fse = require('fs-extra');
 const path = require('path');
 const { Utils: CommonUtils } = require('@openeo/js-commons');
 const proj4 = require('proj4');
+const OEProcessRegistry = require('./registry');
 
-var Utils = {
+const Utils = {
   crsBboxes: {},
   serverUrl: null,
   apiPath: null,
 
   sequence(min, max) {
-    var list = [];
-    for (var i = min; i <= max; i++) {
+    const list = [];
+    for (let i = min; i <= max; i++) {
       list.push(i);
     }
     return list;
@@ -23,9 +24,9 @@ var Utils = {
   },
 
   encodeQueryParams(data) {
-    let ret = [];
-    for (let d in data) {
-      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    const ret = [];
+    for (const d in data) {
+      ret.push(`${encodeURIComponent(d)}=${encodeURIComponent(data[d])}`);
     }
     return ret.join('&');
   },
@@ -51,7 +52,7 @@ var Utils = {
   },
 
   loadDB(name, folder = './storage/database/') {
-    var db = new Datastore({ filename: folder + name + '.db', autoload: true });
+    const db = new Datastore({ filename: `${folder + name}.db`, autoload: true });
     db.persistence.setAutocompactionInterval(60 * 60 * 1000); // Once every hour
     return db;
   },
@@ -84,7 +85,7 @@ var Utils = {
       crs = defaultCrs;
     }
     if (typeof crs === 'number') {
-      return 'EPSG:' + crs;
+      return `EPSG:${crs}`;
     }
     return crs;
   },
@@ -100,7 +101,7 @@ var Utils = {
   },
 
   bboxToGeoJson(bbox) {
-    var geom = {
+    const geom = {
       geodesic: false,
       type: 'Polygon',
       coordinates: [
@@ -109,16 +110,16 @@ var Utils = {
           [bbox.east, bbox.south],
           [bbox.east, bbox.north],
           [bbox.west, bbox.north],
-          [bbox.west, bbox.south]
-        ]
-      ]
+          [bbox.west, bbox.south],
+        ],
+      ],
     };
     if (bbox.crs) {
       geom.crs = {
         type: 'name',
         properties: {
-          name: this.crsToString(bbox.crs)
-        }
+          name: this.crsToString(bbox.crs),
+        },
       };
     }
     return geom;
@@ -134,54 +135,42 @@ var Utils = {
           return gj.coordinates;
         case 'MultiLineString':
         case 'Polygon':
-          return gj.coordinates.reduce(function (dump, part) {
-            return dump.concat(part);
-          }, []);
+          return gj.coordinates.reduce((dump, part) => dump.concat(part), []);
         case 'MultiPolygon':
-          return gj.coordinates.reduce(function (dump, poly) {
-            return dump.concat(
-              poly.reduce(function (points, part) {
-                return points.concat(part);
-              }, [])
-            );
-          }, []);
+          return gj.coordinates.reduce((dump, poly) => dump.concat(
+            poly.reduce((points, part) => points.concat(part), []),
+          ), []);
         case 'GeometryCollection':
-          return gj.geometries.reduce(function (dump, g) {
-            return dump.concat(getCoordinatesDump(g));
-          }, []);
+          return gj.geometries.reduce((dump, g) => dump.concat(getCoordinatesDump(g)), []);
         case 'Feature':
           return getCoordinatesDump(gj.geometry);
         case 'FeatureCollection':
-          return gj.features.reduce(function (dump, f) {
-            return dump.concat(getCoordinatesDump(f));
-          }, []);
+          return gj.features.reduce((dump, f) => dump.concat(getCoordinatesDump(f)), []);
         default:
           throw new Error('Invalid GeoJSON type.');
       }
     };
-    var coords = getCoordinatesDump(geojson);
-    var bbox = coords.reduce(
-      function (prev, coord) {
-        return [
-          Math.min(coord[0], prev[0]),
-          Math.min(coord[1], prev[1]),
-          Math.max(coord[0], prev[2]),
-          Math.max(coord[1], prev[3])
-        ];
-      },
+    const coords = getCoordinatesDump(geojson);
+    const bbox = coords.reduce(
+      (prev, coord) => [
+        Math.min(coord[0], prev[0]),
+        Math.min(coord[1], prev[1]),
+        Math.max(coord[0], prev[2]),
+        Math.max(coord[1], prev[3]),
+      ],
       [
         Number.POSITIVE_INFINITY,
         Number.POSITIVE_INFINITY,
         Number.NEGATIVE_INFINITY,
-        Number.NEGATIVE_INFINITY
-      ]
+        Number.NEGATIVE_INFINITY,
+      ],
     );
     return {
       west: bbox[0],
       south: bbox[1],
       east: bbox[2],
       north: bbox[3],
-      crs: 4326
+      crs: 4326,
     };
   },
 
@@ -205,40 +194,36 @@ var Utils = {
   },
 
   walk(dir) {
-    return fse.readdir(dir).then((files) => {
-      return Promise.all(
-        files.map((file) => {
-          const filepath = path.join(dir, file);
-          return fse.stat(filepath).then((stats) => {
-            if (stats.isDirectory()) {
-              return this.walk(filepath);
-            } else if (stats.isFile()) {
-              return Promise.resolve({
-                path: filepath,
-                stat: stats
-              });
-            }
-          });
-        })
-      ).then((foldersContents) => {
-        return Promise.resolve(
-          foldersContents.reduce(
-            (all, folderContents) => all.concat(folderContents),
-            []
-          )
-        );
-      });
-    });
+    return fse.readdir(dir).then((files) => Promise.all(
+      files.map((file) => {
+        const filepath = path.join(dir, file);
+        return fse.stat(filepath).then((stats) => {
+          if (stats.isDirectory()) {
+            return this.walk(filepath);
+          } if (stats.isFile()) {
+            return Promise.resolve({
+              path: filepath,
+              stat: stats,
+            });
+          }
+        });
+      }),
+    ).then((foldersContents) => Promise.resolve(
+      foldersContents.reduce(
+        (all, folderContents) => all.concat(folderContents),
+        [],
+      ),
+    )));
   },
 
   timeId() {
-    let t = process.hrtime();
+    const t = process.hrtime();
     return String(t[0] * 1e9 + t[1]).padStart(27, '0');
   },
 
   proj(from, to, coords) {
-    var fromCrs = this.crsToString(from);
-    var toCrs = this.crsToString(to);
+    const fromCrs = this.crsToString(from);
+    const toCrs = this.crsToString(to);
     if (fromCrs === toCrs) {
       return coords;
     }
@@ -246,10 +231,10 @@ var Utils = {
     this.loadCrsDef(fromCrs);
     this.loadCrsDef(toCrs);
 
-    let newCoords = proj4(fromCrs, toCrs, coords);
+    const newCoords = proj4(fromCrs, toCrs, coords);
     if (newCoords.filter((n) => !this.isNumeric(n)).length > 0) {
       throw new Error(
-        'CRS conversion from ' + fromCrs + ' to ' + toCrs + ' failed.'
+        `CRS conversion from ${fromCrs} to ${toCrs} failed.`,
       );
     }
     return newCoords;
@@ -257,14 +242,14 @@ var Utils = {
 
   projExtent(extent, targetCrs) {
     extent.crs = extent.crs > 0 ? extent.crs : 4326;
-    var p1 = this.proj(extent.crs, targetCrs, [extent.west, extent.south]);
-    var p2 = this.proj(extent.crs, targetCrs, [extent.east, extent.north]);
+    const p1 = this.proj(extent.crs, targetCrs, [extent.west, extent.south]);
+    const p2 = this.proj(extent.crs, targetCrs, [extent.east, extent.north]);
     return {
       west: p1[0],
       south: p1[1],
       east: p2[0],
       north: p2[1],
-      crs: this.crsToNumber(targetCrs)
+      crs: this.crsToNumber(targetCrs),
     };
   },
 
@@ -282,17 +267,22 @@ var Utils = {
       return; // CRS already available
     }
     if (typeof crs !== 'string' || !crs.startsWith('EPSG:')) {
-      throw new Error('CRS ' + crs + ' not supported');
+      throw new Error(`CRS ${crs} not supported`);
     }
 
     try {
-      let epsgCode = this.crsToNumber(crs);
-      const def = require('epsg-index/s/' + epsgCode + '.json');
+      const epsgCode = this.crsToNumber(crs);
+      const def = require(`epsg-index/s/${epsgCode}.json`);
       proj4.defs(crs, def.proj4);
       this.crsBboxes[crs] = def.bbox;
     } catch (error) {
-      throw new Error('CRS ' + crs + ' not available for reprojection');
+      throw new Error(`CRS ${crs} not available for reprojection`);
     }
+  },
+  getRegistry(path) {
+    const registry = new OEProcessRegistry();
+    registry.addFromFolder(path);
+    return registry
   }
 };
 

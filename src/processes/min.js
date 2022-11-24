@@ -5,8 +5,8 @@ module.exports = class max extends OEProcess {
     numArray,
     { debug = false, no_data = undefined } = {
       debug: false,
-      no_data: undefined
-    }
+      no_data: undefined,
+    },
   ) {
     let min = 1000;
     numArray.map((x) => {
@@ -17,7 +17,7 @@ module.exports = class max extends OEProcess {
 
   calcMin(typeArray) {
     const min = () => {
-      const min = getMinOfArray(typeArray);
+      const min = this.#getMinOfArray(typeArray);
       return min;
     };
 
@@ -31,7 +31,6 @@ module.exports = class max extends OEProcess {
   async execute(node) {
     const array = node.getArgument('typedArray');
     const result = await this.calcMin(array);
-    console.log(result);
     return result;
   }
 };

@@ -1,4 +1,4 @@
-import mean from './mean.module';
+const OEProcessGraph = require('../../src/processgraph/processgraph');
 
 const testSample = [
   118.27296, 204.25503, 212.10663, 230.25095, 80.54336, 235.14836, 155.7913,
@@ -14,11 +14,31 @@ const testSample = [
   171.31934, 180.33606, 245.27175, 84.66159, 166.50608, 23.69196, 89.57879,
   26.29093, 206.78527, 161.52928, 49.52038, 152.19409, 47.47351, 184.8048,
   75.5857, 60.72712, 240.15484, 143.18756, 85.67561, 15.56787, 12.07114,
-  66.3378, 0.66047, 195.91757, 213.04585, 106.82425, 68.47638, 113.93222,
-  110.81707, 218.23262
-];
-const typedSample = Float32Array.from(testSample);
+  66.3378, 0.66047, 195.91757, 213.04585, 106.82425, 68.47638, 113.93222,0];
 
-test('Mean value in an typearray (Image Format)', () => {
-  expect(mean(typedSample)).toBe(132.56478788375856);
+/** Using ProcessGraph */
+const jsonProcess = {
+  "process_graph": {
+    "min": {
+      "process_id": "min",
+      "arguments": {
+        "typedArray": testSample
+      },
+      "description": "Max test",
+      "result": true
+    }
+  }
+};
+
+const Utils = require('../../src/processgraph/utils');
+const processGraph = JSON.parse(JSON.stringify(jsonProcess));
+const registry = Utils.getRegistry('./src/processes');
+const pg = new OEProcessGraph(processGraph, registry);
+async function exc(pg) {
+    const exce = await pg.execute();
+    return exce.computedResult;
+}
+
+test('Min value in an typearray (Image Format)', async () => {
+  await expect( await exc(pg)).toEqual(0);
 });

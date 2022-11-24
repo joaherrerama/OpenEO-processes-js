@@ -1,0 +1,36 @@
+{
+  "process_graph": {
+    "load_collection": {
+      "process_id": "load_collection",
+      "arguments": {
+        "source": [
+          "/Users/Jorge/Documents/tmp/EOlibrary/assets/sample_data/sentinel_muenster.tif"
+        ]
+      },
+      "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
+    },
+    "apply":{
+      "process_id":"apply",
+      "arguments": {
+        "data": {
+          "from_node": "load_collection"
+        },
+        "process": {
+          "process_graph":{
+            "absolute":{
+              "process_id": "absolute",
+              "arguments": {
+                "x": {
+                  "from_parameter": "x"
+                }
+              },
+              "result": true
+            }
+          }
+        }
+      },
+      "description": "abs on bands",
+      "result": true
+    }
+  }
+}

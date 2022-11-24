@@ -25,7 +25,6 @@ module.exports = class max extends OEProcess {
   async execute(node) {
     const array = node.getArgument('typedArray');
     const result = await this.calcMax(array);
-    console.log(result);
     return result;
   }
 };

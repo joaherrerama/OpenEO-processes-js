@@ -5,8 +5,8 @@ module.exports = class max extends OEProcess {
     numbers,
     { debug = false, no_data = undefined } = {
       debug: false,
-      no_data: undefined
-    }
+      no_data: undefined,
+    },
   ) {
     const modes = [];
     const count = [];
@@ -37,7 +37,7 @@ module.exports = class max extends OEProcess {
 
   calcMode(typeArray) {
     const mode = () => {
-      const mode = getModeOfArray(typeArray);
+      const mode = this.getModeOfArray(typeArray);
       return mode;
     };
 
@@ -51,7 +51,6 @@ module.exports = class max extends OEProcess {
   async execute(node) {
     const array = node.getArgument('typedArray');
     const result = await this.calcMode(array);
-    console.log(result);
     return result;
   }
 };

@@ -3,8 +3,14 @@ const OEProcessRegistry = require('../src/processgraph/registry');
 
 /** Using ProcessGraph */
 const jsonProcess = require('../assets/userCases/UserCase1.json');
+const Utils = require('../src/processgraph/utils');
 const processGraph = JSON.parse(JSON.stringify(jsonProcess));
-var registry = new OEProcessRegistry();
-registry.addFromFolder('./src/processes');
-var pg = new OEProcessGraph(processGraph, registry);
-const excecute = pg.execute();
+const registry = Utils.getRegistry('./src/processes');
+const pg = new OEProcessGraph(processGraph, registry);
+exc(pg);
+
+async function exc(pg) {
+    const exce = await pg.execute();
+    console.log(exce.computedResult);
+
+}

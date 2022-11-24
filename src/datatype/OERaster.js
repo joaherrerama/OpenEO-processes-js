@@ -7,15 +7,11 @@ module.exports = class OERaster {
     this.metadata = metadata;
   }
 
-  #valitadorOERaster() {
-    return true;
-  }
-
   addBand(band) {
     if (band instanceof OERasterBand) {
       this.bands.push(band);
     } else {
-      console.error('Error: it is not a valid OERasterband');
+      throw Error('Error: it is not a valid OERasterband');
     }
   }
 
@@ -34,6 +30,7 @@ module.exports = class OERaster {
   getWidth() {
     return this.metadata.fileDirectory.ImageWidth;
   }
+
   getHeight() {
     return this.metadata.fileDirectory.ImageLength;
   }

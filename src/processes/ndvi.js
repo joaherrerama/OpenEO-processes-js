@@ -1,8 +1,9 @@
 const { fromArrayBuffer, writeArrayBuffer } = require('geotiff');
-const OERaster = require('../datatype/OERaster.js');
 const fastMax = require('fast-max');
 const fastMin = require('fast-min');
+const OERaster = require('../datatype/OERaster.js');
 const OEProcess = require('../processgraph/process.js');
+const OERasterBand = require('../datatype/OERasterBand.js');
 
 module.exports = class ndvi extends OEProcess {
   #U8bitsArray(array, maxArray, minArray) {
@@ -37,7 +38,7 @@ module.exports = class ndvi extends OEProcess {
       throw new Error('Image Dimensions do not fit');
     }
 
-    const ndviValue = [];
+    const ndviValue = new Float32Array(redBand.length);
 
     for (let i = 0; i < redBand.length; i += 1) {
       ndviValue[i] = (redBand[i] - nirBand[i]) / (redBand[i] + nirBand[i]);
@@ -49,36 +50,15 @@ module.exports = class ndvi extends OEProcess {
   async #CalcNdvi(rastercube, red, nir) {
     rastercube = this.#tdimentionsHandler(rastercube);
     for (const t in rastercube.tdimension) {
-      const geotiff = rastercube.rasters[t];
-      const n = geotiff.length;
-      for (let i = 0; i < n; i += 1) {
-        const image = geotiff[i];
-        const ndviValue = await this.#ndviCalculation(image, red, nir);
-        // create a 16 bit geotiff wit
-        const ndviArrayBuffer = new Float32Array(ndviValue);
-        const maxArray = fastMax(ndviValue);
-        const minArray = fastMin(ndviValue);
-        const metadata = {
-          width: image.getWidth(),
-          height: image.getHeight()
-        };
-        const newNdvi255 = this.#U8bitsArray(ndviArrayBuffer);
-        const ndviArray = await writeArrayBuffer(newNdvi255, metadata);
-        const ndviGeotiff = await fromArrayBuffer(ndviArray);
-        console.log(ndviGeotiff);
-        const EOraster = new OERaster(ndviGeotiff, 'ndvi_process', {
-          max_norm: maxArray,
-          min_norm: minArray,
-          sourceArray: ndviArrayBuffer
-        });
-        console.log(EOraster);
-        rastercube.rasters[t].push(EOraster);
-        console.log(rastercube);
-        return rastercube;
-      }
+      const image = rastercube.rasters[t];
+      const ndviArrayBuffer = await this.#ndviCalculation(image, red, nir);
+      const EOraster = new OERasterBand(ndviArrayBuffer, 'ndvi_process');
+      rastercube.rasters[t].bands.push(EOraster);
+      return rastercube;
     }
     return rastercube;
   }
+
   async validate(node) {
     await super.validate(node);
   }

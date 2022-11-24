@@ -13,7 +13,7 @@ module.exports = class mean extends OEProcess {
 
   calcMean(typeArray) {
     const mean = () => {
-      const mean = getMeanOfArray(typeArray);
+      const mean = this.getMeanOfArray(typeArray);
       return mean;
     };
 
@@ -27,7 +27,6 @@ module.exports = class mean extends OEProcess {
   async execute(node) {
     const array = node.getArgument('typedArray');
     const result = await this.calcMean(array);
-    console.log(result);
     return result;
   }
 };

@@ -17,7 +17,7 @@ module.exports = class median extends OEProcess {
 
   calcMedian(typeArray) {
     const median = () => {
-      const median = getMedianOfArray(typeArray);
+      const median = this.getMedianOfArray(typeArray);
       return median;
     };
 
@@ -31,7 +31,6 @@ module.exports = class median extends OEProcess {
   async execute(node) {
     const array = node.getArgument('typedArray');
     const result = await this.calcMedian(array);
-    console.log(result);
     return result;
   }
 };

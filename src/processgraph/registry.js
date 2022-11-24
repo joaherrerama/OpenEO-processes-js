@@ -1,6 +1,5 @@
 const fse = require('fse');
 const { ProcessRegistry } = require('@openeo/js-commons');
-const Utils = require('./utils');
 const path = require('path');
 
 module.exports = class OEProcessRegistry extends ProcessRegistry {
@@ -9,14 +8,15 @@ module.exports = class OEProcessRegistry extends ProcessRegistry {
   }
 
   addFromFolder(folder) {
+    const Utils = require('../processgraph/utils');
     fse.readdirSync(folder).forEach((file) => {
       if (file.endsWith('.js')) {
-        var id = path.basename(file, '.js');
+        const id = path.basename(file, '.js');
         this.addFromFile(id);
       }
     });
-    var num = Utils.size(this.namespace('backend'));
-    console.info('Loaded ' + num + ' processes.');
+    const num = Utils.size(this.namespace('backend'));
+    console.info(`Loaded ${num} processes.`);
     return Promise.resolve(num);
   }
 
