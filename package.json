@@ -7,7 +7,7 @@
     "email": "jorge@uni-muenster.de"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/yourOrganizationOrAccount"
+    "registry": "https://npm.pkg.github.com/joaherrerama"
   },
   "main": "lib/index.js",
   "directories": {
@@ -28,8 +28,7 @@
     "fse": "^4.0.1",
     "geotiff": "^2.0.4",
     "proj4": "^2.8.0",
-    "require-esm-as-empty-object": "0.0.1",
-    "rxjs": "^7.5.7"
+    "require-esm-as-empty-object": "0.0.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
