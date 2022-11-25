@@ -1,17 +1,23 @@
-on: 
-  push:
-    branches: [main]
-
+name: Publish package to GitHub Packages
+on:
+  release:
+    types: [created]
 jobs:
-  publish:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest 
+    permissions: 
+      contents: read
+      packages: write 
     steps:
       - uses: actions/checkout@v3
+      # Setup .npmrc file to publish to GitHub Packages
       - uses: actions/setup-node@v3
         with:
-          node-version: 12
-      - run: npm install
-      - run: npm test
-      - uses: joaherrerama/openeojs@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/joaherrerama'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@joaherrerama'
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
