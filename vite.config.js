@@ -6,9 +6,12 @@ import vue from "@vitejs/plugin-vue";
 // https://vitejs.dev/config/
 export default defineConfig({
   publicPath: process.env.NODE_ENV === 'production'
-  ? '/OpenEO-processes-js/'
+  ? '/OpenEO-processes-js'
   : '/',
-  plugins: [vue()],
+  plugins: [vue({ reactivityTransform: true }) ], 
+  base: process.env.NODE_ENV === 'production'
+  ? '/OpenEO-processes-js'
+  : '/',
   rollup: {
     emitCJS: true,
     inlineDependencies: true,
