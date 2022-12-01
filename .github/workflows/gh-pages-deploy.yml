@@ -4,17 +4,19 @@
       branches:
         - web
   jobs:
-    gh-pages-deploy:
-      name: Deploying to Github Pages
+    build_vue:
       runs-on: ubuntu-latest
+      name: Build Vue
       steps:
-          - uses: actions/checkout@v2
-          - uses: actions/setup-node@v2
-            with:
-              node-version: '12'
-          - name: Install packages
-            run: npm i
-          - name: Set Creds
-            run: git config user.name "joaherrerama" && git config user.email "herreram.jahm@gmail.com"
-          - name: Deploy
-            run: npm run deploy
+      - uses: actions/checkout@v2
+      - name: Use Node.js '16.x'
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+          cache: "npm"
+      - id: Build-Vue
+        uses: SerhiiKa/VuePagesAction@1.0.4
+        with:
+          username: 'YourGithubName'
+          reponame: 'YourRepoName'
+          token: ${{ secrets.GITHUB_TOKEN }}
