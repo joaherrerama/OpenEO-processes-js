@@ -17,6 +17,6 @@
       - id: Build-Vue
         uses: SerhiiKa/VuePagesAction@1.0.4
         with:
-          username: 'YourGithubName'
-          reponame: 'YourRepoName'
+          username: 'joaherrerama'
+          reponame: 'OpenEO-processes-js'
           token: ${{ secrets.GITHUB_TOKEN }}
