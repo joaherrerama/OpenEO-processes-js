@@ -1,0 +1,349 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --vt-c-white: #ffffff;
+  --vt-c-white-soft: #f8f8f8;
+  --vt-c-white-mute: #f2f2f2;
+
+  --vt-c-black: #181818;
+  --vt-c-black-soft: #222222;
+  --vt-c-black-mute: #282828;
+
+  --vt-c-indigo: #2c3e50;
+  --vt-danger: #fd763b
+
+  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+  --vt-c-text-light-1: var(--vt-c-indigo);
+  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+  --vt-c-text-dark-1: var(--vt-c-white);
+  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+}
+
+/* semantic color variables for this project */
+:root {
+  --color-background: var(--vt-c-white);
+  --color-background-soft: var(--vt-c-white-soft);
+  --color-background-mute: var(--vt-c-white-mute);
+
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+
+  --color-heading: var(--vt-c-text-light-1);
+  --color-text: var(--vt-c-text-light-1);
+
+  --section-gap: 160px;
+  
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/Muli-1GDlj.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/MuliItalic-Rpvnv.ttf') format('truetype');
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/MuliLight-lg9VZ.ttf') format('truetype');
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/MuliLightItalic-nRvDR.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/MuliExtralight-ywL02.ttf') format('truetype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/MuliSemibold-BW0dG.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/MuliSemiBoldItalic-8MarZ.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/MuliBold-YzEVy.ttf') format('truetype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Mulish';
+  src: url('./fonts/Muli-Black.ttf') format('truetype');
+  font-weight: 700;
+}
+
+/* grid style */
+.black-table .ag-root-wrapper {
+  border-color: #000;
+}
+
+.black-table .ag-root-wrapper .ag-header {
+  border-color: #000;
+}
+
+.black-table .ag-root-wrapper .ag-header .ag-header-viewport {
+  background: #000;
+}
+
+.black-table .ag-root-wrapper .ag-header .ag-header-viewport .ag-cell-label-container {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 24px;
+  letter-spacing: 0.3px;
+  color: #FD763B;
+}
+
+.black-table .ag-root-wrapper .ag-center-cols-viewport {
+  background: #000;
+}
+
+.black-table .ag-root-wrapper .ag-overlay-no-rows-center {
+  color: #fff;
+}
+
+.black-table .ag-root-wrapper .ag-center-cols-viewport .ag-row {
+  background: #000;
+  color: #fff;
+}
+
+.black-table .ag-root-wrapper .ag-center-cols-viewport .ag-row.ag-row-selected::before {
+  background: transparent;
+}
+
+.black-table .ag-root-wrapper .ag-center-cols-viewport .ag-row.ag-row-selected .ag-checkbox-input-wrapper.ag-checked::after, .black-table .ag-checkbox-input-wrapper.ag-checked::after {
+  background: #FD763B;
+  content: '';
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+}
+
+
+
+.priamry-table .ag-root-wrapper {
+  border-color: transparent;
+}
+
+.priamry-table .ag-root-wrapper .ag-header {
+  border-color: transparent;
+}
+
+.priamry-table .ag-root-wrapper .ag-header .ag-header-viewport {
+  background: #fff;
+}
+
+.priamry-table .ag-root-wrapper .ag-header .ag-header-viewport .ag-cell-label-container {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14pt;
+  line-height: 24px;
+  letter-spacing: 0.3px;
+  color: #000;
+}
+
+.priamry-table .ag-root-wrapper .ag-center-cols-viewport {
+  background: transparent;
+}
+
+.priamry-table .ag-root-wrapper .ag-overlay-no-rows-center {
+  color: #000;
+}
+
+.priamry-table .ag-root-wrapper .ag-center-cols-viewport .ag-row {
+  background: transparent;
+  color: #000;
+  border: none;
+}
+
+.priamry-table .ag-root-wrapper .ag-center-cols-viewport .ag-row.ag-row-even {
+  background: rgb(253 118 59 / 25%)
+}
+
+
+.priamry-table.blue-table .ag-root-wrapper .ag-center-cols-viewport .ag-row.ag-row-even {
+  background: hsl(210deg 90% 40% / 25%);
+}
+
+
+.priamry-table .ag-root-wrapper .ag-center-cols-viewport .ag-row.ag-row-selected::before {
+  background: transparent;
+}
+
+.priamry-table .ag-root-wrapper .ag-center-cols-viewport .ag-row.ag-row-selected .ag-checkbox-input-wrapper.ag-checked::after, .black-table .ag-checkbox-input-wrapper.ag-checked::after {
+  background: #FD763B;
+  content: '';
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.priamry-table.blue-table .ag-root-wrapper .ag-center-cols-viewport .ag-row.ag-row-selected .ag-checkbox-input-wrapper.ag-checked::after, .black-table .ag-checkbox-input-wrapper.ag-checked::after {
+  background: hsl(210deg 90% 40% / 25%);
+  content: '';
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.priamry-table .ag-root-wrapper .ag-row .ag-cell {
+  font-size: 9pt;
+}
+
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 40px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin: 8px;
+  border: 4px solid #FD763B;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #FD763B transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+.tippy-box {
+  background: transparent!important;
+}
+
+#map-div .mapboxgl-popup {
+  max-width: initial!important;
+}
+
+#map-div .mapboxgl-popup-content {
+  background: #000!important;
+}
+
+#map-div .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  border-top-color: #000;
+}
+
+.header-pu {
+  display: flex;
+}
+
+.header-pu > div {
+  width: calc(100% - 100px);
+  white-space: nowrap;
+  margin-left: 5px;
+}
+
+.header-pu > div h3 {
+  color: #fff;
+  margin: 0;
+  white-space: nowrap;
+  font-size: 10pt;
+}
+
+.header-pu > div p {
+  margin: 0;
+  font-size: 8pt;
+  color: #fff;
+}
+
+.body-pu {
+  display: flex;
+  font-size: 7pt;
+  color: #fff;
+  line-height: initial;
+  margin-top: 15px;
+}
+
+.hint-tag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1px 7px;
+  font-size: 6pt;
+  color: #fff;
+  background: #FD763B;
+  border-bottom-left-radius: 4px;
+}

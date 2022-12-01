@@ -1,0 +1,38 @@
+{
+  "name": "openeo-demo",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "deploy": "node scripts/gh-pages-deploy.js"
+  },
+  "dependencies": {
+    "@amcharts/amcharts5": "^5.2.31",
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.3",
+    "chart.js": "^4.0.1",
+    "mapbox-gl": "~2.9.2",
+    "pinia": "^2.0.13",
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.13",
+    "vue-select": "^4.0.0-beta.5",
+    "vue3-tabs": "^0.1.13-beta.3"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.1.0",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "@volar-plugins/vetur": "latest",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/test-utils": "^2.0.0-rc.20",
+    "cypress": "^9.5.4",
+    "eslint": "^8.5.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-vue": "^8.2.0",
+    "execa": "^6.1.0",
+    "jsdom": "^19.0.0",
+    "prettier": "^2.5.1",
+    "start-server-and-test": "^1.14.0",
+    "vite": "^2.9.5",
+    "vitest": "^0.9.3"
+  }
+}
