@@ -84,13 +84,9 @@
               :val="tab"
             >
             <div v-if="tab=='Graph'">
-              <h5>Time</h5>
+              <h5>Time & Space</h5>
               <line-chart
               key="1"
-              />
-              <h5>Space</h5>
-              <line-chart
-              key="2"
               />
             </div>
             <MapView v-if="tab=='Map'"></MapView>
