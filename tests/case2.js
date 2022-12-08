@@ -11,5 +11,6 @@ exc(pg);
 
 async function exc(pg) {
     const exce = await pg.execute();
-    console.log(exce.computedResult);
+    const result = await exce.getResult();
+    console.log(result)
 }

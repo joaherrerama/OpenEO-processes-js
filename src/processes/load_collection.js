@@ -1,3 +1,5 @@
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
 const { fromArrayBuffer, fromFile } = require('geotiff');
 const fetch = require('cross-fetch');
 const OERaster = require('../datatype/OERaster');
@@ -38,9 +40,9 @@ module.exports = class load_collection extends OEProcess {
     if (typeof urlImages === 'string') {
       urlImages = [urlImages];
     }
-    const raster_cube = new OERastercube([], []);
     for (const url_image of urlImages) {
       try {
+        const raster_cube = new OERastercube([], []);
         if (this.#UrlValidator(url_image)) {
           const response = await fetch(url_image);
           const arrayBuffer = await response.arrayBuffer();
@@ -53,11 +55,11 @@ module.exports = class load_collection extends OEProcess {
         const rasterType = await this.#OERasterBuilder(geotiff, url_image);
         raster_cube.rasters.push(rasterType);
         raster_cube.tdimension.push(new Date());
+        return raster_cube;
       } catch (e) {
         console.error(e);
       }
     }
-    return raster_cube;
   }
 
   async validate(node) {

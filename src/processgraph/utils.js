@@ -260,28 +260,10 @@ const Utils = {
     }
     return this.crsBboxes[crs];
   },
-
-  loadCrsDef(crs) {
-    crs = this.crsToString(crs);
-    if (proj4.defs(crs) && this.crsBboxes[crs]) {
-      return; // CRS already available
-    }
-    if (typeof crs !== 'string' || !crs.startsWith('EPSG:')) {
-      throw new Error(`CRS ${crs} not supported`);
-    }
-
-    try {
-      const epsgCode = this.crsToNumber(crs);
-      const def = require(`epsg-index/s/${epsgCode}.json`);
-      proj4.defs(crs, def.proj4);
-      this.crsBboxes[crs] = def.bbox;
-    } catch (error) {
-      throw new Error(`CRS ${crs} not available for reprojection`);
-    }
-  },
   getRegistry(path) {
+    const route = path ? path: './src/processes'
     const registry = new OEProcessRegistry();
-    registry.addFromFolder(path);
+    registry.addFromFolder(route);
     return registry
   }
 };
