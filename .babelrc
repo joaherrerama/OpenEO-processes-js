@@ -12,7 +12,8 @@
       "presets": [
         ["@babel/preset-env", {
           "useBuiltIns": false,
-          "modules": false
+          "modules": false,
+          "corejs": 3
         }]
       ],
       "plugins": ["transform-commonjs"]

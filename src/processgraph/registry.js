@@ -1,5 +1,4 @@
 const fse = require('fse');
-const fs = require('fs');
 const { ProcessRegistry } = require('@openeo/js-commons');
 const path = require('path');
 
@@ -23,7 +22,7 @@ module.exports = class OEProcessRegistry extends ProcessRegistry {
 
   async addFromFile(id) {
     const pathJSON = "src/processes/"+id+".json";
-    const spec = JSON.parse(fs.readFileSync(pathJSON, 'utf8'));
+    const spec = JSON.parse(fse.readFileSync(pathJSON, 'utf8'));
     delete spec.process_graph;
     this.add(spec, 'backend');
   }

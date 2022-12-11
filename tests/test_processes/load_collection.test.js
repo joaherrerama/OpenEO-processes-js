@@ -1,6 +1,7 @@
 const OEProcessGraph = require('../../src/processgraph/processgraph');
 const OERastercube = require('../../src/datatype/OERasterCube');
-
+global.TextEncoder = require('util').TextEncoder
+global.TextDecoder = require('util').TextDecoder
 /** Using ProcessGraph */
 const jsonProcess = require('../../assets/userCases/UserCase1.json');
 const Utils = require('../../src/processgraph/utils');
