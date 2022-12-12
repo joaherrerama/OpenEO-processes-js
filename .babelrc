@@ -16,7 +16,10 @@
           "corejs": 3
         }]
       ],
-      "plugins": ["transform-commonjs"]
+      "plugins": [
+        "babel-plugin-static-fs",
+        "babel-plugin-transform-commonjs"
+      ]
     }
   }
 }

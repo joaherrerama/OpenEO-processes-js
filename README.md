@@ -10,7 +10,8 @@ The repository seeks to analyze the performance of OpenEO Processes in a Browser
 
 # Demo and Performance Analysis 
 
-On going ....
+The link below is still under development
+[DEMO](https://joaherrerama.github.io/OpenEO-processes-js/)
 
 # Processes
 
@@ -32,10 +33,26 @@ The latest version has 11 processes implemented as follow:
 * linear_scale_range
 * absolute
 
+## NPM 
+
+The function bellow runs under the same workflow - Building, Testing and Packing
+
+# Build 
+
+```
+npm build
+```
+
 # Testing 
 
 Currently exist 7 unit testing and 4 user cases . These can be find in the test folder and can be compiled through:
 
 ```
 npm test
+```
+
+# Packing 
+
+```
+npm pack
 ```
