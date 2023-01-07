@@ -1,4 +1,4 @@
-const { fromArrayBuffer } = require('geotiff');
+var { fromArrayBuffer } = require('geotiff');
 const { fromFile } = require('geotiff');
 const fetch = require('cross-fetch');
 const OERaster = require('../datatype/OERaster');
