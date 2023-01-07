@@ -9,13 +9,7 @@
       ]
     },
     "es": {
-      "presets": [
-        ["@babel/preset-env", {
-          "useBuiltIns": "usage",
-          "modules": false,
-          "corejs": 3
-        }]
-      ],
+      "presets": [],
       "plugins": [
         "transform-commonjs"
       ]
