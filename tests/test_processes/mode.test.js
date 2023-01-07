@@ -19,7 +19,7 @@ const jsonProcessUnique = {
     "mode": {
       "process_id": "mode",
       "arguments": {
-        "typedArray": testSampleUniqueMode
+        "data": testSampleUniqueMode
       },
       "description": "Max test",
       "result": true
@@ -32,7 +32,7 @@ const jsonProcess = {
     "mode": {
       "process_id": "mode",
       "arguments": {
-        "typedArray": testSample
+        "data": testSample
       },
       "description": "Max test",
       "result": true

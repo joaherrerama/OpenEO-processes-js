@@ -23,7 +23,7 @@ const jsonProcess = {
     "max": {
       "process_id": "max",
       "arguments": {
-        "typedArray": testSample
+        "data": testSample
       },
       "description": "Max test",
       "result": true

@@ -1,5 +1,5 @@
 const { ProcessRegistry } = require('@openeo/js-commons');
-const path = require('path');
+const processes = require('./processJSONImporter');
 
 module.exports = class OEProcessRegistry extends ProcessRegistry {
   constructor() {
@@ -8,11 +8,8 @@ module.exports = class OEProcessRegistry extends ProcessRegistry {
 
   addFromFolder(folder) {
     const Utils = require('../processgraph/utils');
-    require('fse').readdirSync(folder).forEach((file) => {
-      if (file.endsWith('.js')) {
-        const id = path.basename(file, '.js');
+    Object.keys(processes).forEach((id) => {
         this.addFromFile(id);
-      }
     });
     const num = Utils.size(this.namespace('backend'));
     console.info(`Loaded ${num} processes.`);
@@ -20,8 +17,7 @@ module.exports = class OEProcessRegistry extends ProcessRegistry {
   }
 
   async addFromFile(id) {
-    const pathJSON = "src/processes/"+id+".json";
-    const spec = JSON.parse(require('fse').readFileSync(pathJSON, 'utf8'));
+    const spec = JSON.parse(JSON.stringify(processes[id]));
     delete spec.process_graph;
     this.add(spec, 'backend');
   }

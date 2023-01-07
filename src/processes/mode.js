@@ -49,7 +49,7 @@ module.exports = class max extends OEProcess {
   }
 
   async execute(node) {
-    const array = node.getArgument('typedArray');
+    const array = node.getArgument('data');
     const result = await this.calcMode(array);
     return result;
   }

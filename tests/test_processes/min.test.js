@@ -22,7 +22,7 @@ const jsonProcess = {
     "min": {
       "process_id": "min",
       "arguments": {
-        "typedArray": testSample
+        "data": testSample
       },
       "description": "Max test",
       "result": true

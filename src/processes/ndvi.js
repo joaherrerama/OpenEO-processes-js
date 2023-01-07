@@ -1,7 +1,3 @@
-const { fromArrayBuffer, writeArrayBuffer } = require('geotiff');
-const fastMax = require('fast-max');
-const fastMin = require('fast-min');
-const OERaster = require('../datatype/OERaster.js');
 const OEProcess = require('../processgraph/process.js');
 const OERasterBand = require('../datatype/OERasterBand.js');
 

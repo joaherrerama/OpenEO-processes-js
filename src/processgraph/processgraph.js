@@ -1,5 +1,5 @@
 const { ProcessGraph } = require('@openeo/js-processgraphs');
-const process_importer = require('./process_importer')
+const process_importer = require('./processImporter')
 
 module.exports = class OEProcessGraph extends ProcessGraph {
   createProcessInstance(process) {

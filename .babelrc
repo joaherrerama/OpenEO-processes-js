@@ -11,14 +11,13 @@
     "es": {
       "presets": [
         ["@babel/preset-env", {
-          "useBuiltIns": false,
+          "useBuiltIns": "usage",
           "modules": false,
           "corejs": 3
         }]
       ],
       "plugins": [
-        "babel-plugin-static-fs",
-        "babel-plugin-transform-commonjs"
+        "transform-commonjs"
       ]
     }
   }

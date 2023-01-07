@@ -1,4 +1,4 @@
-const { fromArrayBuffer, fromFile } = require('geotiff');
+var { fromArrayBuffer, fromFile } = require('geotiff');
 const fetch = require('cross-fetch');
 const OERaster = require('../datatype/OERaster');
 const OERastercube = require('../datatype/OERasterCube');
@@ -46,7 +46,10 @@ module.exports = class load_collection extends OEProcess {
           const arrayBuffer = await response.arrayBuffer();
           var geotiff = await fromArrayBuffer(arrayBuffer, { ovr: true });
         } else {
+          console.log(url_image)
+          console.log("url_image")
           var geotiff = await fromFile(url_image, { ovr: true });
+          console.log(geotiff)
         }
 
 

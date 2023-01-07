@@ -5,11 +5,11 @@
   "categories": ["mode"],
   "parameters": [
     {
-      "name": "typedArray",
-      "description": "TypedArray Object",
+      "name": "data",
+      "description": "array Object",
       "schema": [
         {
-          "type": "typedArray"
+          "type": "array"
         }
       ]
     }

@@ -18,6 +18,3 @@ webpack.*.js
 
 # dependencies
 node_modules/
-
-# other files
-*y_file.js

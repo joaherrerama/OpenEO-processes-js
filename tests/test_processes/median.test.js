@@ -23,7 +23,7 @@ const jsonProcess = {
     "median": {
       "process_id": "median",
       "arguments": {
-        "typedArray": testSample
+        "data": testSample
       },
       "description": "Max test",
       "result": true

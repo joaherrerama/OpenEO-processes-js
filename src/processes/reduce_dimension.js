@@ -64,7 +64,7 @@ module.exports = class reduce_dimension extends OEProcess {
               });
               
               await callback.setArguments({
-                'typedArray': data
+                'data': data
               })
               var exc = await callback.execute();
               const result = await exc.getResult();
@@ -92,7 +92,7 @@ module.exports = class reduce_dimension extends OEProcess {
                 });
                 
                 await callback.setArguments({
-                  'typedArray': data
+                  'data': data
                 })
                 var exc = await callback.execute();
                 const result = await exc.getResult();

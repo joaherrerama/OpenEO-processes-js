@@ -23,7 +23,7 @@ const jsonProcess = {
     "mean": {
       "process_id": "mean",
       "arguments": {
-        "typedArray": testSample
+        "data": testSample
       },
       "description": "Max test",
       "result": true
