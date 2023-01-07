@@ -40,11 +40,23 @@
             <div class="process">
               <h5>Code</h5>
               <div class="highlight">
-                <pre class="chroma">
-                  <code class="language-javascript" data-lang="javascript">
-{{usercases[tab]?.code}}
-                  </code>
-                </pre>
+                <br>
+                <span style="color:#6aa0bd;">const</span><span> initialTime = performance.now()</span>
+                <br>
+                <span style="color:#6aa0bd;">const</span><span> processGraph = JSON.parse(JSON.stringify(jsonProcess))</span>
+                <br>
+                <span style="color:#6aa0bd;">const</span><span> registry = Utils.getRegistry()</span>
+                <br>
+                <span style="color:#6aa0bd;">const</span><span> pg = new OEProcessGraph(processGraph, registry)</span>
+                <br>
+                <span style="color:#6aa0bd;">const</span><span> exce = await pg.execute();</span>
+                <br>
+                <span style="color:#6aa0bd;">const</span><span> processResult = await exce.getResult();</span>
+                <br>
+                <span style="color:#6aa0bd;">const</span><span> executedTime = performance.now() - initialTime</span>
+                <br>
+                <span style="color:#bd6a6a;">return</span><span>{ 'resut':processResult, 'time': executedTime }</span>
+                <br>
               </div>
               <h5>Process ProcessGraph</h5>
               <div class="highlight">
@@ -83,10 +95,24 @@
               :key="`tp${i}`"
               :val="tab"
             >
+            <div v-if="tab=='Graph'" style="margin:20px 0px 20px 0px;">
+              <h5>Time & Space</h5>
+              <p>different areas</p>
+              <line-chart
+              id='chart1'
+              :labels="labelsA"
+              :data="dataA"
+              :key="graphKey"
+              />
+            </div>
             <div v-if="tab=='Graph'">
               <h5>Time & Space</h5>
+              <p>different resolutions</p>
               <line-chart
-              key="1"
+              id="chart2"
+              :labels="labelsR"
+              :data="dataR"
+              :key="graphKey"
               />
             </div>
             <MapView v-if="tab=='Map'"></MapView>
@@ -95,7 +121,6 @@
       </div>
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -104,6 +129,7 @@ import MapView from '@/components/MapView.vue';
 import LineChart from '@/components/LineChart.vue'
 import { Tabs, Tab, TabPanels, TabPanel } from 'vue3-tabs';
 import { defineComponent, reactive, toRefs } from 'vue';
+import executeUserCase from '@/components/scripts/userCarse'
 
 const tabs = ['User Case 1', 'User Case 2', 'User Case 3', 'User Case 4'];
 const tabsRight = ['Graph', 'Map'];
@@ -135,35 +161,40 @@ export default {
           id: 'uc1',
           title: 'Loading an Image',
           description: 'This user case take an image in geotiff or Optimize Geotiff and creates an OERastercube.',
-          code: "const OEProcessGraph = require('../src/processgraph/processgraph');\n const OEProcessRegistry = require('../src/processgraph/registry');\n /** Using ProcessGraph */\n const jsonProcess = require('../assets/userCases/UserCase1.json');\n const Utils = require('../src/processgraph/utils');\n const processGraph = JSON.parse(JSON.stringify(jsonProcess));\n const registry = Utils.getRegistry('./src/processes');\n const pg = new OEProcessGraph(processGraph, registry);\n exc(pg);\n async function exc(pg) {\n const exce = await pg.execute();\n console.log(exce.computedResult);\n }",
-          json:'{"id":1,"name":"A green door","price":12.50,"tags":["home","green"]}'
+          code: '',
+          json:''
         },
         "User Case 2":{
           id: 'uc2',
           title: 'Calculating an NDVI',
           description: 'This user case take an image in geotiff or Optimize Geotiff and creates an OERastercube, based on the bands given, the code computes an NDVI',
-          code: "const OEProcessGraph = require('../src/processgraph/processgraph');\n const OEProcessRegistry = require('../src/processgraph/registry');\n /** Using ProcessGraph */\n const jsonProcess = require('../assets/userCases/UserCase1.json');\n const Utils = require('../src/processgraph/utils');\n const processGraph = JSON.parse(JSON.stringify(jsonProcess));\n const registry = Utils.getRegistry('./src/processes');\n const pg = new OEProcessGraph(processGraph, registry);\n exc(pg);\n async function exc(pg) {\n const exce = await pg.execute();\n console.log(exce.computedResult);\n }",
-          json:'{"id":1,"name":"A green door","price":12.50,"tags":["home","green"]}'
+          code: '',
+          json:''
         },
         "User Case 3":{
           id: 'uc3',
           title: 'Processing a Reducer + simple Apply',
           description: 'This user case take an image in geotiff or Optimize Geotiff and creates an OERastercube, then the raster cube is reduced temporarily and then applying a simple function trought the resulted raster cube (absolute function)',
-          code: "const OEProcessGraph = require('../src/processgraph/processgraph');\n const OEProcessRegistry = require('../src/processgraph/registry');\n /** Using ProcessGraph */\n const jsonProcess = require('../assets/userCases/UserCase1.json');\n const Utils = require('../src/processgraph/utils');\n const processGraph = JSON.parse(JSON.stringify(jsonProcess));\n const registry = Utils.getRegistry('./src/processes');\n const pg = new OEProcessGraph(processGraph, registry);\n exc(pg);\n async function exc(pg) {\n const exce = await pg.execute();\n console.log(exce.computedResult);\n }",
-          json:'{"id":1,"name":"A green door","price":12.50,"tags":["home","green"]}'
+          code: "",
+          json:''
         },
         "User Case 4":{
           id: 'uc4',
           title: 'Complex Apply function',
           description: 'In this case the user adds an Image and then we apply a linear scale algoritm to the raster cube. This scaling process implies finding max and min the each band before create the calculations We expect that the computational power and requirement to be higher than the previous user cases.',
-          code: "const OEProcessGraph = require('../src/processgraph/processgraph');\n const OEProcessRegistry = require('../src/processgraph/registry');\n /** Using ProcessGraph */\n const jsonProcess = require('../assets/userCases/UserCase1.json');\n const Utils = require('../src/processgraph/utils');\n const processGraph = JSON.parse(JSON.stringify(jsonProcess));\n const registry = Utils.getRegistry('./src/processes');\n const pg = new OEProcessGraph(processGraph, registry);\n exc(pg);\n async function exc(pg) {\n const exce = await pg.execute();\n console.log(exce.computedResult);\n }",
-          json:'{"id":1,"name":"A green door","price":12.50,"tags":["home","green"]}'
+          code: "",
+          json:''
         }
       }
     };
   },
   data() {
     return {
+      labelsA:['Whole Picture', 'Muenster outskirts', 'Muenster city', 'Muenster City Hall'],
+      dataA:[],
+      labelsR:['10', '30', '50', '100'],
+      dataR:[],
+      graphKey:0
     }
   },
   computed: {
@@ -172,8 +203,213 @@ export default {
     }
   },
   methods:{
-    runUserCase(ucId){
-      alert(ucId)
+    async runUserCase(ucId){
+      let images = ["sentinel_muenster.tif","sentinel_muenster_bg1.tif","sentinel_muenster_bg2.tif","sentinel_muenster_center.tif"];
+      let imagesR = ["sentinel_muenster.tif","sentinel_muenster_30.tif","sentinel_muenster_50.tif","sentinel_muenster_100.tif"];
+      let arr = [];
+      switch(ucId){
+        case 'uc1':
+          arr = [];
+          this.usercases['User Case 1'].json = {
+              "process_graph": {
+                "load_collection": {
+                  "process_id": "load_collection",
+                  "arguments": {
+                    "source": []
+                  },
+                  "description": "Loading the data; The order of the specified bands is important for the following reduce operation.",
+                  "result": true
+                }
+              }
+          }
+          var json = this.usercases['User Case 1'].json
+          for (let img of images){
+            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            arr.push(result.time);
+          }
+          this.dataA = arr;
+          arr = [];
+          for (let img of imagesR){
+            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            arr.push(result.time);
+          }
+          this.dataR = arr;
+          this.graphKey += 1;
+          break
+        case 'uc2':
+          arr = [];
+          this.usercases['User Case 2'].json = {
+            "process_graph": {
+              "load_collection": {
+                "process_id": "load_collection",
+                "arguments": {
+                  "source": []
+                },
+                "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
+              },
+              "ndvi": {
+                "process_id": "ndvi",
+                "arguments": {
+                  "rastercube": {
+                    "from_node": "load_collection"
+                  },
+                  "red": 0,
+                  "nir": 3
+                },
+                "result": true
+              }
+            }
+          }
+          var json = this.usercases['User Case 2'].json
+          for (let img of images){
+            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            arr.push(result.time);
+          }
+          this.dataA = arr;
+          arr = [];
+          for (let img of imagesR){
+            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            arr.push(result.time);
+          }
+          this.dataR = arr;
+          this.graphKey += 1;
+          break
+        case 'uc3':
+        arr = [];
+          this.usercases['User Case 3'].json = {
+            "process_graph": {
+              "load_collection": {
+                "process_id": "load_collection",
+                "arguments": {
+                  "source": []
+                },
+                "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
+              },
+              "reduce_bands": {
+                "process_id": "reduce_dimension",
+                "arguments": {
+                  "data": {
+                    "from_node": "load_collection"
+                  },
+                  "reducer": {
+                    "process_graph": {
+                      "median": {
+                        "process_id": "median",
+                        "arguments": {
+                          "data": {
+                            "from_parameter": "data"
+                          }
+                        },
+                        "result": true
+                      }
+                    }
+                  },
+                  "dimension": "temporal"
+                },
+                "description": "reducer median"
+              },
+              "apply":{
+                "process_id":"apply",
+                "arguments": {
+                  "data": {
+                    "from_node": "load_collection"
+                  },
+                  "process": {
+                    "process_graph":{
+                      "linear_scale_range":{
+                        "process_id": "linear_scale_range",
+                        "arguments": {
+                          "x": {
+                            "from_parameter": "x"
+                          },
+                          "inputMin": 0,
+                          "inputMax": 1
+                        },
+                        "result": true
+                      }
+                    }
+                  }
+                },
+                "description": "normalizing bands",
+                "result": true
+              }
+            }
+          }
+          var json = this.usercases['User Case 3'].json
+          for (let img of images){
+            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            arr.push(result.time);
+          }
+          this.dataA = arr;
+          arr = [];
+          for (let img of imagesR){
+            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            arr.push(result.time);
+          }
+          this.dataR = arr;
+          this.graphKey += 1;
+          break
+        case 'uc4':
+          arr = [];
+          this.usercases['User Case 4'].json = {
+            "process_graph": {
+              "load_collection": {
+                "process_id": "load_collection",
+                "arguments": {
+                  "source": [
+                    "/Users/Jorge/Documents/tmp/EOlibrary/assets/sample_data/sentinel_muenster.tif"
+                  ]
+                },
+                "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
+              },
+              "apply":{
+                "process_id":"apply",
+                "arguments": {
+                  "data": {
+                    "from_node": "load_collection"
+                  },
+                  "process": {
+                    "process_graph":{
+                      "absolute":{
+                        "process_id": "absolute",
+                        "arguments": {
+                          "x": {
+                            "from_parameter": "x"
+                          }
+                        },
+                        "result": true
+                      }
+                    }
+                  }
+                },
+                "description": "abs on bands",
+                "result": true
+              }
+            }
+          }
+          var json = this.usercases['User Case 4'].json
+          for (let img of images){
+            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            arr.push(result.time);
+          }
+          this.dataA = arr;
+          arr = [];
+          for (let img of imagesR){
+            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            arr.push(result.time);
+          }
+          this.dataR = arr;
+          this.graphKey += 1;
+          break
+      }
     }
   }
 }
@@ -223,8 +459,11 @@ export default {
 }
 
 .highlight{
+  color:#f8f8f2;
+  font-size: 0.8rem;
   background-color: black;
   text-indent: -1em;
+  padding: 20px;
 }
 
 .chroma {

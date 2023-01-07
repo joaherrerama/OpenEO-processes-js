@@ -1,6 +1,6 @@
 <template>
     <div>
-        <canvas :id="'myChart'+key"></canvas>
+        <canvas :id="id" ></canvas>
     </div>
 </template>
 
@@ -8,7 +8,7 @@
 import Chart from 'chart.js/auto'
 
 export default({
-    props:['key'],
+    props:['id', 'labels', 'data'],
     components:{
         Chart
     },
@@ -21,27 +21,22 @@ export default({
     },
     mounted() {
         setTimeout(()=>{
+            console.log(this.id)
             this.creategraph();
         },1000)
     },
     methods: {
         creategraph(){
-            const ctx = document.getElementById('myChart'+this.key);
+            const ctx = document.getElementById(this.id);
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: [1,2,3,4,5,6,7],
+                    labels: this.labels,
                     datasets: [{
                         label: 'time',
-                        data: [65, 59, 80, 81, 56, 55, 40],
+                        data: this.data,
                         fill: false,
                         borderColor: '#a75534',
-                        tension: 0.5
-                    },{
-                        label: 'space',
-                        data: [105, 549, 850, 861, 576, 575, 470],
-                        fill: false,
-                        borderColor: '#335E6F',
                         tension: 0.5
                     }]
                 },
