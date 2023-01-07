@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "@joaherrerama/openeojs",
   "description": "This repository contains the based code of implementation for processes specifications. Each process is coded and specified in modules with its test and documentation code.",
   "author": {
