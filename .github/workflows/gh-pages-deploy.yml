@@ -2,7 +2,7 @@
   on:
     push:
       branches:
-        - web
+        - v2090
   jobs:
     build_vue:
       runs-on: ubuntu-latest
