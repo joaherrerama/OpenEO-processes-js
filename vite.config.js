@@ -26,6 +26,5 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url))
     },
   },
-  server: { https: true },
-  plugins: [ vue({ reactivityTransform: true }), mkcert() ]
+  plugins: [ vue({ reactivityTransform: true }) ]
 });
