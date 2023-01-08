@@ -10,8 +10,9 @@ module.exports = class linear_scale_range extends OEProcess {
       return outputMin
     }
     const scale1 = (x - inputMin) / (inputMax - inputMin);
-    const scale2 = (outputMax - outputMin) + outputMin;
-    const scale = scale1 * scale2
+    const scale2 = (outputMax - outputMin);
+    const scale = scale1 * scale2 + outputMin
+    console.log(scale)
     return scale;
   }
 

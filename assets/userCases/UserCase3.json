@@ -47,7 +47,9 @@
                   "from_parameter": "x"
                 },
                 "inputMin": 0,
-                "inputMax": 1
+                "inputMax": 65536,
+                "outputMin": -1,
+                "outputMax": 1
               },
               "result": true
             }
