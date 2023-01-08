@@ -55,17 +55,22 @@
                 <br>
                 <span style="color:#6aa0bd;">const</span><span> executedTime = performance.now() - initialTime</span>
                 <br>
-                <span style="color:#bd6a6a;">return</span><span>{ 'resut':processResult, 'time': executedTime }</span>
+                <span style="color:#bd6a6a;">return</span><span>{ 'result':processResult, 'time': executedTime }</span>
                 <br>
               </div>
               <h5>Process ProcessGraph</h5>
-              <div class="highlight">
+              <div class="highlight" :key="graphKey">
                 <pre class="chroma">
-{{usercases[tab]?.json}}
+                    {{usercases[tab]?.json}}
+                </pre>
+              </div>
+              <h5>Last result Result Arrays (All result in Console Dev)</h5>
+              <div class="highlight" :key="graphKey">
+                <pre class="chroma">
+                    {{usercases[tab]?.array}}
                 </pre>
               </div>
               <div>
-
               </div>
             </div>
             </tab-panel>
@@ -174,7 +179,7 @@ export default {
         "User Case 3":{
           id: 'uc3',
           title: 'Processing a Reducer + simple Apply',
-          description: 'This user case take an image in geotiff or Optimize Geotiff and creates an OERastercube, then the raster cube is reduced temporarily and then applying a simple function trought the resulted raster cube (absolute function)',
+          description: 'This user case take an image in geotiff or Optimize Geotiff and creates an OERastercube, then the raster cube is reduced temporarily and then applying a simple function trought the resulted raster cube (Linear scale range function)',
           code: "",
           json:''
         },
@@ -194,7 +199,8 @@ export default {
       dataA:[],
       labelsR:['10', '30', '50', '100'],
       dataR:[],
-      graphKey:0
+      graphKey:0,
+      url:'https://joaherrerama.github.io/OpenEO-processes-js/assets/sample_data'
     }
   },
   computed: {
@@ -207,9 +213,11 @@ export default {
       let images = ["sentinel_muenster.tif","sentinel_muenster_bg1.tif","sentinel_muenster_bg2.tif","sentinel_muenster_center.tif"];
       let imagesR = ["sentinel_muenster.tif","sentinel_muenster_30.tif","sentinel_muenster_50.tif","sentinel_muenster_100.tif"];
       let arr = [];
+      let resultF = null;
       switch(ucId){
         case 'uc1':
           arr = [];
+          resultF = null;
           this.usercases['User Case 1'].json = {
               "process_graph": {
                 "load_collection": {
@@ -224,22 +232,25 @@ export default {
           }
           var json = this.usercases['User Case 1'].json
           for (let img of images){
-            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 1'].json)
             arr.push(result.time);
           }
           this.dataA = arr;
           arr = [];
           for (let img of imagesR){
-            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
+            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 1'].json)
             arr.push(result.time);
+            resultF = result['result'];
           }
+          this.usercases['User Case 1'].array = resultF;
           this.dataR = arr;
           this.graphKey += 1;
           break
         case 'uc2':
           arr = [];
+          resultF = null;
           this.usercases['User Case 2'].json = {
             "process_graph": {
               "load_collection": {
@@ -264,22 +275,25 @@ export default {
           }
           var json = this.usercases['User Case 2'].json
           for (let img of images){
-            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 2'].json)
             arr.push(result.time);
           }
           this.dataA = arr;
           arr = [];
           for (let img of imagesR){
-            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 2'].json)
             arr.push(result.time);
+            resultF = result['result'];
           }
+          this.usercases['User Case 2'].array = resultF;
           this.dataR = arr;
           this.graphKey += 1;
           break
         case 'uc3':
-        arr = [];
+          arr = [];
+          resultF = null;
           this.usercases['User Case 3'].json = {
             "process_graph": {
               "load_collection": {
@@ -327,7 +341,9 @@ export default {
                             "from_parameter": "x"
                           },
                           "inputMin": 0,
-                          "inputMax": 1
+                          "inputMax": 65536,
+                          "outputMin": -1,
+                          "outputMax": 1
                         },
                         "result": true
                       }
@@ -341,30 +357,31 @@ export default {
           }
           var json = this.usercases['User Case 3'].json
           for (let img of images){
-            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 3'].json)
             arr.push(result.time);
           }
           this.dataA = arr;
           arr = [];
           for (let img of imagesR){
-            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 3'].json)
             arr.push(result.time);
+            resultF = result['result'];
           }
+          this.usercases['User Case 3'].array = resultF;
           this.dataR = arr;
           this.graphKey += 1;
           break
         case 'uc4':
           arr = [];
+          resultF = null;
           this.usercases['User Case 4'].json = {
             "process_graph": {
               "load_collection": {
                 "process_id": "load_collection",
                 "arguments": {
-                  "source": [
-                    "/Users/Jorge/Documents/tmp/EOlibrary/assets/sample_data/sentinel_muenster.tif"
-                  ]
+                  "source": []
                 },
                 "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
               },
@@ -395,17 +412,19 @@ export default {
           }
           var json = this.usercases['User Case 4'].json
           for (let img of images){
-            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 4'].json)
             arr.push(result.time);
           }
           this.dataA = arr;
           arr = [];
           for (let img of imagesR){
-            json['process_graph']['load_collection']['arguments']['source'] = [`https://localhost:3000/src/assets/sample_data/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 1'].json)
+            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+            const result = await executeUserCase(this.usercases['User Case 4'].json)
             arr.push(result.time);
+            resultF = result['result'];
           }
+          this.usercases['User Case 4'].array = resultF;
           this.dataR = arr;
           this.graphKey += 1;
           break

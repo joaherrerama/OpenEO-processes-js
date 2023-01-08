@@ -10,7 +10,8 @@ const executeUserCase = async (jsonProcess) => {
     const exce = await pg.execute();
     const processResult = await exce.getResult();
     const executedTime = performance.now() - initialTime
-    return { 'resut':processResult, 'time': executedTime } ;
+    console.log({ 'result':processResult, 'time': executedTime });
+    return {'result':processResult, 'time': executedTime };
 
 }
 

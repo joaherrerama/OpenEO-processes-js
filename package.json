@@ -13,7 +13,7 @@
   "dependencies": {
     "@amcharts/amcharts5": "^5.2.31",
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
-    "@joaherrerama/openeojs": "^1.0.1",
+    "@joaherrerama/openeojs": "^1.0.2",
     "@openeo/js-commons": "^1.4.1",
     "@openeo/js-processgraphs": "^1.3.0",
     "@popperjs/core": "^2.11.6",
