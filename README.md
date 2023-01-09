@@ -26,3 +26,8 @@ As the previous steps, download the code and checkout the web branch then:
 then
 
 `docker-compose up`
+
+# Screenshots
+
+![alt text](public/Screenshot 2023-01-09 at 05.58.47.png)
+
