@@ -2,6 +2,8 @@
 
 This repository has a demo web application to proof the performance of OpenEoJs library.
 
+![Test GiF](https://github.com/joaherrerama/OpenEO-processes-js/blob/web/public/video_demo.gif)
+
 ## Locally
 
 Clone the git repository:
@@ -34,12 +36,6 @@ then
 
 `https:localhost:8080`
 
-
 # Screenshot
 
 ![Test Image 4](https://github.com/joaherrerama/OpenEO-processes-js/blob/web/public/Screenshot%202023-01-09%20at%2005.58.47.png)
-
-# Video
-
-![Test GiF](https://github.com/joaherrerama/OpenEO-processes-js/blob/web/public/video_demo.gif)
-
