@@ -29,5 +29,5 @@ then
 
 # Screenshots
 
-![alt text](public/Screenshot 2023-01-09 at 05.58.47.png)
+![alt text](/public/Screenshot 2023-01-09 at 05.58.47.png)
 
