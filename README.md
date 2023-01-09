@@ -2,11 +2,27 @@
 
 This repository has a demo web application to proof the performance of OpenEoJs library.
 
-## Run it locally
+## Locally
 
-`npm install`
-`npm run dev`
+Clone the git repository:
+`git clone https://github.com/joaherrerama/OpenEO-processes-js.git`
 
-## HTTPS
- 
-`vite.config.js` has a config to allow https protocol on local env. Thus, please access the platform trough https://localhost:3000/
+Access the code source:
+`cd OpenEO-processes-js`
+
+Checkout web branch
+
+`git checkout web`
+
+Run de application
+`npm install && npm run dev`
+
+## Docker 
+
+As the previous steps, download the code and checkout the web branch then:
+
+`docker-compose build`
+
+then
+
+`docker-compose up`

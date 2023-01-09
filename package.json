@@ -2,6 +2,7 @@
   "name": "openeo-demo",
   "version": "0.5.0",
   "scripts": {
+    "serve": "vite --host 0.0.0.0",
     "dev": "vite",
     "build": "vite build",
     "deploy": "node scripts/gh-pages-deploy.js"

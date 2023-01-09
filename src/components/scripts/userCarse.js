@@ -3,14 +3,12 @@ import Utils from '@joaherrerama/openeojs/es/processgraph/utils';
 
 const executeUserCase = async (jsonProcess) => {
     /** Using ProcessGraph */
-    console.log(jsonProcess)
     const initialTime = performance.now()
     const processGraph = JSON.parse(JSON.stringify(jsonProcess));
-    console.log(processGraph)
     const registry = Utils.getRegistry();
     console.log("processGraph")
     const pg = new OEProcessGraph(processGraph, registry);
-    console.log(pg)
+    console.log(pg.excecute)
     console.log("excecute")
     const exce = await pg.execute();
     console.log(exce)

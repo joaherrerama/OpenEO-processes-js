@@ -6,12 +6,6 @@ import mkcert from 'vite-plugin-mkcert'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  publicPath: process.env.NODE_ENV === 'production'
-  ? '/OpenEO-processes-js'
-  : '/',
-  base: process.env.NODE_ENV === 'production'
-  ? '/OpenEO-processes-js'
-  : '/',
   rollup: {
     emitCJS: true,
     inlineDependencies: true,
@@ -26,6 +20,10 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url))
     },
   },
-  server: { https: true },
+  server: { 
+    https: true,
+    host:true,
+    port: 8080
+  },
   plugins: [ vue({ reactivityTransform: true }), mkcert() ]
 });

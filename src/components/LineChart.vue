@@ -37,19 +37,26 @@ export default({
                         data: this.data,
                         fill: false,
                         borderColor: 'black',
-                        tension: 0.5
+                        tension: 0.5,
+                        yAxisID: 'y'
                     },{
                         label: 'memory (mega-bytes)',
                         data: this.dataM,
                         fill: false,
                         borderColor: 'orange',
-                        tension: 0.5
+                        tension: 0.5,
+                        yAxisID: 'y1',
                     }]
                 },
                 options: {
                     scales: {
                     y: {
-                        beginAtZero: false
+                        beginAtZero: false,
+                        position: 'left',
+                    },
+                    y1: {
+                        beginAtZero: false,
+                        position: 'right',
                     }
                     }
                 }
