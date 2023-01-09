@@ -11,7 +11,7 @@ The repository seeks to analyze the performance of OpenEO Processes in a Browser
 # Demo and Performance Analysis 
 
 The link below is still under development
-[DEMO](https://joaherrerama.github.io/OpenEO-processes-js/)
+[DEMO](https://github.com/joaherrerama/OpenEO-processes-js/tree/web)
 
 # Processes
 
