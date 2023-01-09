@@ -38,25 +38,11 @@
               <p>{{ usercases[tab]?.description }}</p>
             </div>
             <div class="process">
-              <h5>Code</h5>
-              <div class="highlight">
-                <br>
-                <span style="color:#6aa0bd;">const</span><span> initialTime = performance.now()</span>
-                <br>
-                <span style="color:#6aa0bd;">const</span><span> processGraph = JSON.parse(JSON.stringify(jsonProcess))</span>
-                <br>
-                <span style="color:#6aa0bd;">const</span><span> registry = Utils.getRegistry()</span>
-                <br>
-                <span style="color:#6aa0bd;">const</span><span> pg = new OEProcessGraph(processGraph, registry)</span>
-                <br>
-                <span style="color:#6aa0bd;">const</span><span> exce = await pg.execute();</span>
-                <br>
-                <span style="color:#6aa0bd;">const</span><span> processResult = await exce.getResult();</span>
-                <br>
-                <span style="color:#6aa0bd;">const</span><span> executedTime = performance.now() - initialTime</span>
-                <br>
-                <span style="color:#bd6a6a;">return</span><span>{ 'result':processResult, 'time': executedTime }</span>
-                <br>
+              <h5>Performance</h5>
+              <div class="highlight" :key="graphKey">
+                <pre class="chroma">
+                    {{usercases[tab]?.performance}}
+                </pre>
               </div>
               <h5>Process ProcessGraph</h5>
               <div class="highlight" :key="graphKey">
@@ -107,6 +93,7 @@
               id='chart1'
               :labels="labelsA"
               :data="dataA"
+              :dataM="dataAM"
               :key="graphKey"
               />
             </div>
@@ -117,6 +104,7 @@
               id="chart2"
               :labels="labelsR"
               :data="dataR"
+              :dataM="dataRM"
               :key="graphKey"
               />
             </div>
@@ -197,8 +185,10 @@ export default {
     return {
       labelsA:['Whole Picture', 'Muenster outskirts', 'Muenster city', 'Muenster City Hall'],
       dataA:[],
+      dataAM:[],
       labelsR:['10', '30', '50', '100'],
       dataR:[],
+      dataRM:[],
       graphKey:0,
       url:'https://joaherrerama.github.io/OpenEO-processes-js/assets/sample_data'
     }
@@ -213,10 +203,13 @@ export default {
       let images = ["sentinel_muenster.tif","sentinel_muenster_bg1.tif","sentinel_muenster_bg2.tif","sentinel_muenster_center.tif"];
       let imagesR = ["sentinel_muenster.tif","sentinel_muenster_30.tif","sentinel_muenster_50.tif","sentinel_muenster_100.tif"];
       let arr = [];
+      let arrM = [];
+      let performance = [];
       let resultF = null;
       switch(ucId){
         case 'uc1':
           arr = [];
+          performance = [];
           resultF = null;
           this.usercases['User Case 1'].json = {
               "process_graph": {
@@ -235,21 +228,31 @@ export default {
             json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 1'].json)
             arr.push(result.time);
+            arrM.push(result.memory);
+            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
           }
           this.dataA = arr;
+          this.dataAM = arrM;
           arr = [];
+          arrM = [];
           for (let img of imagesR){
             json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 1'].json)
             arr.push(result.time);
+            arrM.push(result.memory);
+            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
             resultF = result['result'];
           }
           this.usercases['User Case 1'].array = resultF;
+          this.usercases['User Case 1'].performance = performance;
           this.dataR = arr;
+          this.dataRM = arrM;
           this.graphKey += 1;
           break
         case 'uc2':
           arr = [];
+          arrM = [];
+          performance = [];
           resultF = null;
           this.usercases['User Case 2'].json = {
             "process_graph": {
@@ -278,21 +281,31 @@ export default {
             json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 2'].json)
             arr.push(result.time);
+            arrM.push(result.memory);
+            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
           }
           this.dataA = arr;
+          this.dataAM = arrM;
           arr = [];
+          arrM = [];
           for (let img of imagesR){
             json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 2'].json)
             arr.push(result.time);
+            arrM.push(result.memory);
+            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
             resultF = result['result'];
           }
           this.usercases['User Case 2'].array = resultF;
+          this.usercases['User Case 2'].performance = performance;
           this.dataR = arr;
+          this.dataRM = arrM;
           this.graphKey += 1;
           break
         case 'uc3':
           arr = [];
+          arrM = [];
+          performance = [];
           resultF = null;
           this.usercases['User Case 3'].json = {
             "process_graph": {
@@ -360,21 +373,31 @@ export default {
             json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 3'].json)
             arr.push(result.time);
+            arrM.push(result.memory);
+            performance.push({'img': img, 'time': result.time , 'memory': result.memory})
           }
           this.dataA = arr;
+          this.dataAM = arrM;
           arr = [];
+          arrM = [];
           for (let img of imagesR){
             json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 3'].json)
             arr.push(result.time);
+            arrM.push(result.memory);
             resultF = result['result'];
+            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
           }
           this.usercases['User Case 3'].array = resultF;
+          this.usercases['User Case 3'].performance = performance;
           this.dataR = arr;
+          this.dataRM = arrM;
           this.graphKey += 1;
           break
         case 'uc4':
           arr = [];
+          arrM = [];
+          performance = [];
           resultF = null;
           this.usercases['User Case 4'].json = {
             "process_graph": {
@@ -415,17 +438,25 @@ export default {
             json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 4'].json)
             arr.push(result.time);
+            arrM.push(result.memory);
+            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
           }
           this.dataA = arr;
+          this.dataAM = arrM;
           arr = [];
+          arrM = [];
           for (let img of imagesR){
             json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
             const result = await executeUserCase(this.usercases['User Case 4'].json)
             arr.push(result.time);
+            arrM.push(result.memory);
+            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
             resultF = result['result'];
           }
           this.usercases['User Case 4'].array = resultF;
+          this.usercases['User Case 4'].performance = performance;
           this.dataR = arr;
+          this.dataRM = arrM;
           this.graphKey += 1;
           break
       }

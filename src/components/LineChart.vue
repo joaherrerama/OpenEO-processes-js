@@ -8,7 +8,7 @@
 import Chart from 'chart.js/auto'
 
 export default({
-    props:['id', 'labels', 'data'],
+    props:['id', 'labels', 'data', 'dataM'],
     components:{
         Chart
     },
@@ -33,10 +33,16 @@ export default({
                 data: {
                     labels: this.labels,
                     datasets: [{
-                        label: 'time',
+                        label: 'time (ms)',
                         data: this.data,
                         fill: false,
-                        borderColor: '#a75534',
+                        borderColor: 'black',
+                        tension: 0.5
+                    },{
+                        label: 'memory (mega-bytes)',
+                        data: this.dataM,
+                        fill: false,
+                        borderColor: 'orange',
                         tension: 0.5
                     }]
                 },

@@ -16,8 +16,8 @@ const executeUserCase = async (jsonProcess) => {
     console.log(exce)
     const processResult = await exce.getResult();
     const executedTime = performance.now() - initialTime
-    console.log({ 'result':processResult, 'time': executedTime });
-    return {'result':processResult, 'time': executedTime };
+    console.log({ 'result':processResult, 'time': executedTime, 'memory': performance.memory.usedJSHeapSize/1000000 });
+    return {'result':processResult, 'time': executedTime, 'memory': performance.memory.usedJSHeapSize/1000000};
 
 }
 
