@@ -29,5 +29,6 @@ then
 
 # Screenshots
 
-![alt text](public/Screenshot 2023-01-09 at 05.58.47.png)
+![Test Image 4](https://github.com/joaherrerama/OpenEO-processes-js/blob/web/public/Screenshot%202023-01-09%20at%2005.58.47.png)
+![Test GiF](https://github.com/joaherrerama/OpenEO-processes-js/blob/web/public/video_demo.gif)
 
