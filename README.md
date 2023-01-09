@@ -35,8 +35,11 @@ then
 `https:localhost:8080`
 
 
-# Screenshots
+# Screenshot
 
 ![Test Image 4](https://github.com/joaherrerama/OpenEO-processes-js/blob/web/public/Screenshot%202023-01-09%20at%2005.58.47.png)
+
+# Video
+
 ![Test GiF](https://github.com/joaherrerama/OpenEO-processes-js/blob/web/public/video_demo.gif)
 
