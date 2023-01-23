@@ -200,7 +200,7 @@ export default {
   },
   methods:{
     async runUserCase(ucId){
-      let images = ["sentinel_muenster.tif","sentinel_muenster_bg1.tif","sentinel_muenster_bg2.tif","sentinel_muenster_center.tif"];
+      let images = ["sentinel_muenster.tif","sentinel_muenster_bg2.tif","sentinel_muenster_bg1.tif","sentinel_muenster_center.tif"];
       let imagesR = ["sentinel_muenster.tif","sentinel_muenster_30.tif","sentinel_muenster_50.tif","sentinel_muenster_100.tif"];
       let arr = [];
       let arrM = [];
