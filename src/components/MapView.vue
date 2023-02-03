@@ -2,7 +2,17 @@
     <div id="map-div"></div>
 </template>
 <script>
-import Mapbox from "mapbox-gl";
+import Map from 'ol/Map.js';
+import OSM from 'ol/source/OSM.js';
+// import TileLayer from 'ol/layer/Tile.js';
+import View from 'ol/View.js';
+import GeoTIFF from 'ol/source/GeoTIFF.js';
+import TileLayer from 'ol/layer/WebGLTile.js';
+import LayerSwitcherImage from 'ol-ext/control/LayerSwitcherImage'
+import {
+  transform
+} from 'ol/proj.js';
+
 
 export default {
     components:{},
@@ -13,20 +23,36 @@ export default {
     }
     ,
     async mounted() {
-        Mapbox.accessToken = this.accessToken;
-        const map = new Mapbox.Map({
-        container: "map-div",
-        hash: false,
-        //style: 'mapbox://styles/waltech2020/cl1cfotp000bl14o33021k93f',
-        //style: "mapbox://styles/mapbox/dark-v10",
-        center: [10.4515, 51.1657],
-        zoom: 6,
-        maxZoom: 17,
+        const osm = new TileLayer({
+            title:"OSM",
+            baseLayer: true,
+            source: new OSM(),
         });
-        map.setStyle("mapbox://styles/mapbox/dark-v11");
-        map.on("load", () => {
-        this.map = map;
+        const map = new Map({
+            target: 'map-div',
+            layers: [osm],
+            view: new View({
+                center: transform([7.62571, 51.96236], 'EPSG:4326', 'EPSG:3857'),
+                zoom: 10,
+            }),
         });
+        const source = new GeoTIFF({
+            title:"Primary Source",
+            sources: [
+                {
+                url: 'https://joaherrerama.github.io/OpenEO-processes-js/assets/sample_data/sentinel_muenster_30.tif',
+                // overviews: ['https://openlayers.org/data/raster/no-overviews.tif.ovr'],
+                bands: [4,2,3]
+                },
+            ],
+        });
+        const layerGeotiff = new TileLayer({
+            title: "Münster 100",
+            source: source,
+            visible: false
+        });
+        map.addLayer(layerGeotiff);
+        map.addControl (new LayerSwitcherImage());
     },
 }
 </script>

@@ -8,10 +8,8 @@ const executeUserCase = async (jsonProcess) => {
     const registry = Utils.getRegistry();
     console.log("processGraph")
     const pg = new OEProcessGraph(processGraph, registry);
-    console.log(pg.excecute)
     console.log("excecute")
     const exce = await pg.execute();
-    console.log(exce)
     const processResult = await exce.getResult();
     const executedTime = performance.now() - initialTime
     console.log({ 'result':processResult, 'time': executedTime, 'memory': performance.memory.usedJSHeapSize/1000000 });

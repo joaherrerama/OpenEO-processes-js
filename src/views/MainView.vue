@@ -32,7 +32,11 @@
             >
             <div class="title">
               <h4>{{ usercases[tab]?.title }}</h4>
-              <button class="btn btn-dark" type="button" :id="usercases[tab]?.id" @click="runUserCase(usercases[tab]?.id)">Run user case</button>
+              <div style="display:flex;" v-if="processing">
+                <p style="font-size:0.7rem;font-weight:700;margin-right: 10px;color:orange">{{imageProcessing}}</p>
+                <clip-loader color="orange" size="30px"></clip-loader>
+              </div>
+              <button v-if="!processing" class="btn btn-dark" type="button" :id="usercases[tab]?.id" @click="runUserCase(usercases[tab]?.id)">Run user case</button>
             </div>
             <div class="description">
               <p>{{ usercases[tab]?.description }}</p>
@@ -87,8 +91,17 @@
               :val="tab"
             >
             <div v-if="tab=='Graph'" style="margin:20px 0px 20px 0px;">
-              <h5>Time & Space</h5>
-              <p>different areas</p>
+              <div v-if="tab=='Graph'">
+              <h5>Original 5 time Iterations</h5>
+              <line-chart
+              id="chart4"
+              :labels="labelsII"
+              :data="dataII"
+              :dataM="dataIIM"
+              :key="graphKey"
+              />
+            </div>
+              <h5>Different Sizes</h5>
               <line-chart
               id='chart1'
               :labels="labelsA"
@@ -98,13 +111,22 @@
               />
             </div>
             <div v-if="tab=='Graph'">
-              <h5>Time & Space</h5>
-              <p>different resolutions</p>
+              <h5>Different Spatial Resolutions</h5>
               <line-chart
               id="chart2"
               :labels="labelsR"
               :data="dataR"
               :dataM="dataRM"
+              :key="graphKey"
+              />
+            </div>
+            <div v-if="tab=='Graph'">
+              <h5>Different Radiometric Resolutions</h5>
+              <line-chart
+              id="chart3"
+              :labels="labelsRR"
+              :data="dataRR"
+              :dataM="dataRRM"
               :key="graphKey"
               />
             </div>
@@ -123,6 +145,7 @@ import LineChart from '@/components/LineChart.vue'
 import { Tabs, Tab, TabPanels, TabPanel } from 'vue3-tabs';
 import { defineComponent, reactive, toRefs } from 'vue';
 import executeUserCase from '@/components/scripts/userCarse'
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 
 const tabs = ['User Case 1', 'User Case 2', 'User Case 3', 'User Case 4'];
 const tabsRight = ['Graph', 'Map'];
@@ -135,7 +158,8 @@ export default {
     Tab,
     TabPanels,
     TabPanel,
-    LineChart
+    LineChart,
+    ClipLoader
   },
   setup() {
     const state = reactive({
@@ -166,15 +190,15 @@ export default {
         },
         "User Case 3":{
           id: 'uc3',
-          title: 'Processing a Reducer + simple Apply',
-          description: 'This user case take an image in geotiff or Optimize Geotiff and creates an OERastercube, then the raster cube is reduced temporarily and then applying a simple function trought the resulted raster cube (Linear scale range function)',
+          title: 'Processing a simple Apply',
+          description: 'This user case take an image in geotiff or Optimize Geotiff and creates an OERastercube, then applies a simple function trought the resulted raster cube (Linear scale range function)',
           code: "",
           json:''
         },
         "User Case 4":{
           id: 'uc4',
-          title: 'Complex Apply function',
-          description: 'In this case the user adds an Image and then we apply a linear scale algoritm to the raster cube. This scaling process implies finding max and min the each band before create the calculations We expect that the computational power and requirement to be higher than the previous user cases.',
+          title: 'Reducer + apply function',
+          description: 'In this case the user adds an Image and then the raster cube is reduced temporarily, followed by the aplication of a absolute algoritm over the raster cube.',
           code: "",
           json:''
         }
@@ -183,14 +207,22 @@ export default {
   },
   data() {
     return {
-      labelsA:['Whole Picture', 'Muenster outskirts', 'Muenster city', 'Muenster City Hall'],
+      labelsA:['Primary Source (1.609.280 px)', 'Muenster outskirts (946.242 px)', 'Muenster city (568.890 px)', 'Muenster City Hall (96.945 px)'],
       dataA:[],
       dataAM:[],
       labelsR:['10', '30', '50', '100'],
       dataR:[],
       dataRM:[],
+      labelsRR:['UInt16', 'I16', 'UInt32', 'Float64'],
+      dataRR:[],
+      dataRRM:[],
+      labelsII:[1,2,3,4,5],
+      dataII:[],
+      dataIIM:[],
       graphKey:0,
-      url:'https://joaherrerama.github.io/OpenEO-processes-js/assets/sample_data'
+      url:'https://joaherrerama.github.io/OpenEO-processes-js/assets/sample_data',
+      processing: false,
+      imageProcessing:null
     }
   },
   computed: {
@@ -200,17 +232,8 @@ export default {
   },
   methods:{
     async runUserCase(ucId){
-      let images = ["sentinel_muenster.tif","sentinel_muenster_bg2.tif","sentinel_muenster_bg1.tif","sentinel_muenster_center.tif"];
-      let imagesR = ["sentinel_muenster.tif","sentinel_muenster_30.tif","sentinel_muenster_50.tif","sentinel_muenster_100.tif"];
-      let arr = [];
-      let arrM = [];
-      let performance = [];
-      let resultF = null;
       switch(ucId){
         case 'uc1':
-          arr = [];
-          performance = [];
-          resultF = null;
           this.usercases['User Case 1'].json = {
               "process_graph": {
                 "load_collection": {
@@ -224,36 +247,9 @@ export default {
               }
           }
           var json = this.usercases['User Case 1'].json
-          for (let img of images){
-            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 1'].json)
-            arr.push(result.time);
-            arrM.push(result.memory);
-            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
-          }
-          this.dataA = arr;
-          this.dataAM = arrM;
-          arr = [];
-          arrM = [];
-          for (let img of imagesR){
-            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 1'].json)
-            arr.push(result.time);
-            arrM.push(result.memory);
-            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
-            resultF = result['result'];
-          }
-          this.usercases['User Case 1'].array = resultF;
-          this.usercases['User Case 1'].performance = performance;
-          this.dataR = arr;
-          this.dataRM = arrM;
-          this.graphKey += 1;
+          await this.run(json, 'User Case 1');
           break
         case 'uc2':
-          arr = [];
-          arrM = [];
-          performance = [];
-          resultF = null;
           this.usercases['User Case 2'].json = {
             "process_graph": {
               "load_collection": {
@@ -277,36 +273,9 @@ export default {
             }
           }
           var json = this.usercases['User Case 2'].json
-          for (let img of images){
-            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 2'].json)
-            arr.push(result.time);
-            arrM.push(result.memory);
-            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
-          }
-          this.dataA = arr;
-          this.dataAM = arrM;
-          arr = [];
-          arrM = [];
-          for (let img of imagesR){
-            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 2'].json)
-            arr.push(result.time);
-            arrM.push(result.memory);
-            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
-            resultF = result['result'];
-          }
-          this.usercases['User Case 2'].array = resultF;
-          this.usercases['User Case 2'].performance = performance;
-          this.dataR = arr;
-          this.dataRM = arrM;
-          this.graphKey += 1;
+          await this.run(json, 'User Case 2')
           break
         case 'uc3':
-          arr = [];
-          arrM = [];
-          performance = [];
-          resultF = null;
           this.usercases['User Case 3'].json = {
             "process_graph": {
               "load_collection": {
@@ -315,29 +284,6 @@ export default {
                   "source": []
                 },
                 "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
-              },
-              "reduce_bands": {
-                "process_id": "reduce_dimension",
-                "arguments": {
-                  "data": {
-                    "from_node": "load_collection"
-                  },
-                  "reducer": {
-                    "process_graph": {
-                      "median": {
-                        "process_id": "median",
-                        "arguments": {
-                          "data": {
-                            "from_parameter": "data"
-                          }
-                        },
-                        "result": true
-                      }
-                    }
-                  },
-                  "dimension": "temporal"
-                },
-                "description": "reducer median"
               },
               "apply":{
                 "process_id":"apply",
@@ -369,36 +315,9 @@ export default {
             }
           }
           var json = this.usercases['User Case 3'].json
-          for (let img of images){
-            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 3'].json)
-            arr.push(result.time);
-            arrM.push(result.memory);
-            performance.push({'img': img, 'time': result.time , 'memory': result.memory})
-          }
-          this.dataA = arr;
-          this.dataAM = arrM;
-          arr = [];
-          arrM = [];
-          for (let img of imagesR){
-            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 3'].json)
-            arr.push(result.time);
-            arrM.push(result.memory);
-            resultF = result['result'];
-            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
-          }
-          this.usercases['User Case 3'].array = resultF;
-          this.usercases['User Case 3'].performance = performance;
-          this.dataR = arr;
-          this.dataRM = arrM;
-          this.graphKey += 1;
+          await this.run(json, 'User Case 3')
           break
         case 'uc4':
-          arr = [];
-          arrM = [];
-          performance = [];
-          resultF = null;
           this.usercases['User Case 4'].json = {
             "process_graph": {
               "load_collection": {
@@ -408,11 +327,34 @@ export default {
                 },
                 "description": "Loading the data; The order of the specified bands is important for the following reduce operation."
               },
+              "reduce_bands": {
+                "process_id": "reduce_dimension",
+                "arguments": {
+                  "data": {
+                    "from_node": "load_collection"
+                  },
+                  "reducer": {
+                    "process_graph": {
+                      "median": {
+                        "process_id": "mean",
+                        "arguments": {
+                          "data": {
+                            "from_parameter": "data"
+                          }
+                        },
+                        "result": true
+                      }
+                    }
+                  },
+                  "dimension": "temporal"
+                },
+                "description": "reducer median"
+              },
               "apply":{
                 "process_id":"apply",
                 "arguments": {
                   "data": {
-                    "from_node": "load_collection"
+                    "from_node": "reduce_bands"
                   },
                   "process": {
                     "process_graph":{
@@ -434,32 +376,79 @@ export default {
             }
           }
           var json = this.usercases['User Case 4'].json
-          for (let img of images){
-            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 4'].json)
-            arr.push(result.time);
-            arrM.push(result.memory);
-            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
-          }
-          this.dataA = arr;
-          this.dataAM = arrM;
-          arr = [];
-          arrM = [];
-          for (let img of imagesR){
-            json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
-            const result = await executeUserCase(this.usercases['User Case 4'].json)
-            arr.push(result.time);
-            arrM.push(result.memory);
-            performance.push({'img': img, 'time': result.time, 'memory': result.memory})
-            resultF = result['result'];
-          }
-          this.usercases['User Case 4'].array = resultF;
-          this.usercases['User Case 4'].performance = performance;
-          this.dataR = arr;
-          this.dataRM = arrM;
-          this.graphKey += 1;
+          await this.run(json, 'User Case 4')
           break
       }
+    },
+    async run(json, useCase){
+      this.processing = true;
+      // Different Sizes
+      let arr = [];
+      let arrM = [];
+      let performance = [];
+      let resultF = null;
+      let images = ["sentinel_muenster.tif","sentinel_muenster_bg2.tif","sentinel_muenster_bg1.tif", "sentinel_muenster_center.tif"];
+      let imagesR = ["sentinel_muenster.tif","sentinel_muenster_30.tif","sentinel_muenster_50.tif","sentinel_muenster_100.tif"];
+      let imagesRR = ["sentinel_muenster.tif","sentinel_muenster_I16.tif","sentinel_muenster_U32.tif","sentinel_muenster_F64.tif"];
+      let imagesIter = ["sentinel_muenster.tif","sentinel_muenster.tif","sentinel_muenster.tif","sentinel_muenster.tif","sentinel_muenster.tif"]
+
+      // Iteration
+      for (let img of imagesIter){
+        this.imageProcessing = img;
+        json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+        const result = await executeUserCase(this.usercases[useCase].json)
+        arr.push(result.time);
+        arrM.push(result.memory);
+        performance.push({'img': img, 'time': result.time, 'memory': result.memory})
+      }
+      this.dataII = arr;
+      this.dataIIM = arrM;
+
+      // Sizes
+      arr = [];
+      arrM = [];
+      for (let img of images){
+        this.imageProcessing = img;
+        json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+        const result = await executeUserCase(this.usercases[useCase].json)
+        arr.push(result.time);
+        arrM.push(result.memory);
+        performance.push({'img': img, 'time': result.time, 'memory': result.memory})
+      }
+      this.dataA = arr;
+      this.dataAM = arrM;
+      // Spatial Resolution
+      arr = [];
+      arrM = [];
+      for (let img of imagesR){
+        this.imageProcessing = img;
+        json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+        const result = await executeUserCase(this.usercases[useCase].json)
+        arr.push(result.time);
+        arrM.push(result.memory);
+        performance.push({'img': img, 'time': result.time, 'memory': result.memory})
+        resultF = result['result'];
+      }
+      this.usercases[useCase].array = resultF;
+      this.usercases[useCase].performance = performance;
+      this.dataR = arr;
+      this.dataRM = arrM;
+      // Radiometric Resolution
+      arr = [];
+      arrM = [];
+      for (let img of imagesRR){
+        this.imageProcessing = img;
+        json['process_graph']['load_collection']['arguments']['source'] = [`${this.url}/${img}`]
+        const result = await executeUserCase(this.usercases[useCase].json)
+        arr.push(result.time);
+        arrM.push(result.memory);
+        performance.push({'img': img, 'time': result.time, 'memory': result.memory})
+      }
+      this.dataRR = arr;
+      this.dataRRM = arrM;
+
+      this.graphKey += 1;
+      this.processing = false;
     }
   }
 }
